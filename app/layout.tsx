@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { SmoothScroll } from "@/components/smooth-scroll";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { SmoothScroll } from "@/components/layout/smooth-scroll";
 
 const poppins = Poppins({
   variable: "--font-poppins",
