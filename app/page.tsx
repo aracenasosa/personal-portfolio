@@ -8,6 +8,7 @@ import { ProjectsSection } from "@/components/features/projects/ProjectsSection"
 import { WorkEducationSection } from "@/components/features/education/WorkEducationSection";
 import { SkillsSection } from "@/components/features/skills/SkillsSection";
 import { ContactSection } from "@/components/features/contact/ContactSection";
+import { ReviewsSection } from "@/components/features/reviews/ReviewsSection";
 
 export default function Home() {
   return (
@@ -49,6 +50,7 @@ export default function Home() {
               <WorkEducationSection />
               <SkillsSection />
               <AboutSection />
+              <ReviewsSection />
               <ContactSection />
 
               <footer className="py-8 border-t border-border/50 text-center text-sm text-muted-foreground">

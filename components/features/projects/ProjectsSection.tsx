@@ -3,16 +3,16 @@
 import { projects } from "@/data"
 import { ProjectCard } from "./ProjectCard"
 import { FadeInSection } from "@/components/ui/FadeInSection"
+import { SectionBadge } from "@/components/ui/SectionBadge"
 
 export function ProjectsSection() {
     return (
         <FadeInSection>
             <section id="projects" className="mb-32">
                 <div className="flex items-center justify-between mb-10">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-xs font-medium">
-                        <span className="w-2 h-2 rounded-full bg-primary" />
+                    <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />}>
                         Projects
-                    </div>
+                    </SectionBadge>
                     <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
                         View All Projects →
                     </a>

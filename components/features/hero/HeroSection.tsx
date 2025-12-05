@@ -1,18 +1,18 @@
 "use client"
 
-import { Sparkles } from "lucide-react"
+
 import { profileInfo, stats } from "@/data"
 import { DOWNLOAD_LINKS } from "@/lib/constants"
 import { FadeInSection } from "@/components/ui/FadeInSection"
+import { SectionBadge } from "@/components/ui/SectionBadge"
 
 export function HeroSection() {
     return (
         <FadeInSection>
             <section id="home" className="mb-32 pt-10">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-secondary/30 text-sm font-medium mb-8 backdrop-blur-sm">
-                    <Sparkles className="w-4 h-4" />
+                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
                     Introduction
-                </div>
+                </SectionBadge>
                 <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-8">
                     I'm {profileInfo.name} Aracena <br />
                     Full-Stack JavaScript <br />

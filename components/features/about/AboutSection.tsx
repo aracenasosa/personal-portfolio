@@ -1,7 +1,8 @@
 "use client"
 
-import { Sparkles } from "lucide-react"
+
 import { FadeInSection } from "@/components/ui/FadeInSection"
+import { SectionBadge } from "@/components/ui/SectionBadge"
 
 export function AboutSection() {
     const scrollToContact = () => {
@@ -14,30 +15,23 @@ export function AboutSection() {
     return (
         <FadeInSection>
             <section id="about" className="mb-32">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-secondary/30 text-sm font-medium mb-8 backdrop-blur-sm">
-                    <Sparkles className="w-4 h-4" />
+                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
                     About
-                </div>
+                </SectionBadge>
 
                 <h2 className="text-3xl sm:text-5xl font-bold leading-tight mb-8">
-                    Transforming Complexity Into Effortless Design
+                    Turning Complex Systems Into Simple, Human-Centered Interfaces
                 </h2>
 
                 <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                     <p>
-                        I'm a designer and front-end developer passionate about transforming complex problems into clear, intuitive digital experiences. I believe great design isn't just about how something looks—it's about how it works. My approach blends creativity with strategy, ensuring every interface not only looks good but also feels effortless to use.
+                        I’m a full-stack engineer with a strong focus on modern front-end development, specializing in React, Next.js, TypeScript, and Angular. While frontend is where I’m strongest, I also have solid backend experience with Node/NestJS, .NET APIs, and Oracle, allowing me to understand and build full feature flows end-to-end. I blend clean engineering with thoughtful UI design to create fast, intuitive, and reliable user experiences.
                     </p>
                     <p>
-                        Over the past few years, I've worked across web, brand, and product design—bringing ideas to life through modern tools like Figma, React, and Tailwind CSS. Whether it's building a design system, crafting a responsive website, or refining the smallest detail in a button animation, I'm always driven by one goal: creating meaningful, human-centered design that makes technology feel simple.
+                        Over the past several years, I’ve delivered production systems across travel-tech, telecom, and banking—building payment flows, internal dashboards, operational tools, and data-driven interfaces used daily by real customers and enterprise teams. Whether developing reusable component libraries, integrating secure APIs, or optimizing performance for large datasets, my goal is always the same: create modern, human-centered products that make complex tasks feel simple.
                     </p>
                 </div>
 
-                <button
-                    onClick={scrollToContact}
-                    className="mt-10 px-8 py-3 rounded-xl bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors"
-                >
-                    Contact Me
-                </button>
             </section>
         </FadeInSection>
     )

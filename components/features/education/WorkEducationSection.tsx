@@ -1,9 +1,10 @@
 "use client"
 
-import { Sparkles } from "lucide-react"
-import { education, experience } from "@/data"
+
+import { education, experience, certifications } from "@/data"
 import type { TimelineItem } from "@/types"
 import { FadeInSection } from "@/components/ui/FadeInSection"
+import { SectionBadge } from "@/components/ui/SectionBadge"
 
 interface TimelineItemProps {
     item: TimelineItem
@@ -29,10 +30,9 @@ export function WorkEducationSection() {
     return (
         <FadeInSection>
             <section id="education" className="mb-32">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 bg-secondary/30 text-sm font-medium mb-8 backdrop-blur-sm">
-                    <Sparkles className="w-4 h-4" />
+                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
                     Resume
-                </div>
+                </SectionBadge>
 
                 <h2 className="text-3xl sm:text-4xl font-bold mb-6">Education And Practical Experience</h2>
                 <p className="text-muted-foreground mb-12 leading-relaxed">
@@ -58,6 +58,19 @@ export function WorkEducationSection() {
                                 <TimelineItemComponent key={item.id} item={item} />
                             ))}
                         </div>
+
+
+                    </div>
+                </div>
+
+                <div className="mt-16">
+                    <h3 className="text-2xl font-bold mb-8">Certifications & Courses</h3>
+                    <div className="columns-1 md:columns-2 gap-12 space-y-8">
+                        {certifications.map((item) => (
+                            <div key={item.id} className="break-inside-avoid mb-8">
+                                <TimelineItemComponent item={item} />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
