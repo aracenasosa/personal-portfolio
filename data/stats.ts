@@ -2,8 +2,8 @@ import type { Stat } from '@/types'
 
 export const stats: Stat[] = [
     {
-        value: '30+',
-        label: 'Happy Clients'
+        value: 'Telecom · Banking · Travel-Tech',
+        label: 'Multi-Industry Experience'
     },
     {
         value: '05+',

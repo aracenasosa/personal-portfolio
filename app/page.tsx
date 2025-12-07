@@ -1,16 +1,25 @@
-import { ProfileCard } from "@/components/layout/profile-card";
-import { RightNav } from "@/components/layout/right-nav";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { HeroSection } from "@/components/features/hero/HeroSection";
 import { AboutSection } from "@/components/features/about/AboutSection";
-import { ProjectsSection } from "@/components/features/projects/ProjectsSection";
 import { WorkEducationSection } from "@/components/features/education/WorkEducationSection";
 import { SkillsSection } from "@/components/features/skills/SkillsSection";
 import { ContactSection } from "@/components/features/contact/ContactSection";
+import ProjectsSection from "@/components/features/projects/ProjectsSection";
+import { sanityFetch } from "@/sanity/lib/live";
+import { portfolioQuery } from "@/sanity/lib/queries";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { PortfolioData } from "@/types/sanity";
 import { ReviewsSection } from "@/components/features/reviews/ReviewsSection";
+import { ProfileCard } from "@/components/layout/profile-card";
+import { RightNav } from "@/components/layout/right-nav";
 
-export default function Home() {
+export default async function Home() {
+
+  const { data } = await sanityFetch({ query: portfolioQuery }) as { data: PortfolioData | null };
+  console.log(data);
+
+  if (!data) return <div>Loading...</div>;
+
   return (
     <>
       <ScrollToTop />
@@ -21,7 +30,8 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-8 relative">
             {/* Left Column - Fixed Profile */}
             <div className="hidden lg:block w-[400px] relative">
-              <ProfileCard />
+              {/*profile*/}
+              <ProfileCard data={data.profile} />
             </div>
 
             {/* Mobile Profile (visible only on small screens) */}
@@ -45,11 +55,10 @@ export default function Home() {
               </div>
 
               {/* Sections */}
-              <HeroSection />
-              <ProjectsSection />
-              <WorkEducationSection />
-              <SkillsSection />
-              <AboutSection />
+              <HeroSection data={data.introduction} />
+              <ProjectsSection projects={data.projects} />
+              <WorkEducationSection data={data.resume} />
+              <AboutSection data={data.about} />
               <ReviewsSection />
               <ContactSection />
 
@@ -63,4 +72,3 @@ export default function Home() {
     </>
   );
 }
-

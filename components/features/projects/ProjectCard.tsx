@@ -1,18 +1,17 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import type { Project } from "@/types"
+import type { Project } from "@/types/sanity"
+import { urlFor } from "@/sanity/lib/image"
 
-interface ProjectCardProps extends Project { }
-
-export function ProjectCard({ id, title, category, image }: ProjectCardProps) {
+function ProjectCard({ title, category, images, slug, _key }: Project) {
+    const mainImage = images?.[0] ? urlFor(images[0]).url() : '/placeholder.jpg' // Fallback image
+    //slug.current
     return (
-        <Link href={`/project/${id}`}>
+        <Link href={`/project/${`${_key}`}`}>
             <div className="group relative overflow-hidden rounded-3xl bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 cursor-pointer">
                 <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                        src={image}
+                        src={mainImage}
                         alt={title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -21,10 +20,14 @@ export function ProjectCard({ id, title, category, image }: ProjectCardProps) {
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="text-xs font-medium text-muted-foreground mb-2 block">{category}</span>
+                    <span className="text-xs font-medium text-muted-foreground mb-2 block">
+                        {Array.isArray(category) ? category.join(', ') : category}
+                    </span>
                     <h3 className="text-xl font-bold">{title}</h3>
                 </div>
             </div>
         </Link>
     )
 }
+
+export { ProjectCard }

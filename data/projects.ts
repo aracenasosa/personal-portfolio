@@ -144,5 +144,42 @@ export const projects: Project[] = [
             'Used by 500+ developers worldwide',
             '100% Lighthouse score across all categories'
         ]
+    },
+    {
+        id: 5,
+        title: 'Task Management System',
+        category: 'SaaS Platform',
+        image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2340&auto=format&fit=crop',
+        description: 'Collaborative task management platform with real-time updates, team workflows, and productivity analytics.',
+        fullDescription: 'A modern SaaS task management platform designed for distributed teams. The system features intelligent task prioritization, automated workflow management, real-time collaboration, and comprehensive analytics. Built with a microservices architecture using Next.js frontend and Node.js backend, it handles thousands of concurrent users with sub-second response times. Integration with popular tools like Slack, GitHub, and Google Workspace enables seamless workflow automation.',
+        images: [
+            'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2340&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2340&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2340&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2340&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=2340&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2340&auto=format&fit=crop'
+        ],
+        technologies: ['Next.js', 'Node.js', 'Express', 'MongoDB', 'Redis', 'WebSocket', 'Docker', 'AWS'],
+        features: [
+            'Real-time task updates and collaboration with WebSocket',
+            'Kanban boards with drag-and-drop functionality',
+            'Advanced filtering and search capabilities',
+            'Automated task assignment based on workload',
+            'Team productivity analytics and reporting',
+            'Custom workflow automation with triggers',
+            'Third-party integrations (Slack, GitHub, Google Workspace)',
+            'Role-based permissions and team management'
+        ],
+        liveUrl: 'https://taskmanager-demo.com',
+        githubUrl: 'https://github.com/yourusername/task-manager',
+        timeline: 'Sep 2022 - Feb 2023',
+        role: 'Tech Lead',
+        teamSize: '8 developers',
+        highlights: [
+            'Serving 25,000+ active users across 500+ teams',
+            '99.9% uptime over 18 months',
+            'Average task completion rate increased by 45%'
+        ]
     }
 ]
