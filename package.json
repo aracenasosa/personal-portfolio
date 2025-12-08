@@ -21,6 +21,7 @@
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-loading-skeleton": "^3.5.0",
     "sanity": "^4.20.3",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.4.0",

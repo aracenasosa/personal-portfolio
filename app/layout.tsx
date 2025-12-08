@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",

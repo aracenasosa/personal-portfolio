@@ -28,29 +28,21 @@ export default async function Home() {
 
         <div className="max-w-[1800px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
           <div className="flex flex-col lg:flex-row gap-8 relative">
+            {/* Mobile Theme Toggle */}
+            <div className="flex justify-end lg:hidden mt-4 px-4">
+              <ThemeToggle />
+            </div>
+
             {/* Left Column - Fixed Profile */}
-            <div className="hidden lg:block w-[400px] relative">
+            <div className="w-full lg:w-[400px] relative px-4 lg:px-0">
               {/*profile*/}
               <ProfileCard data={data.profile} />
             </div>
 
-            {/* Mobile Profile (visible only on small screens) */}
-            <div className="lg:hidden w-full mt-8">
-              <div className="relative w-full flex flex-col gap-6 p-8 rounded-3xl bg-card border border-border/50 shadow-xl">
-                {/* Simplified content for mobile if needed, or just reuse components structure but not fixed */}
-                <div className="flex items-center justify-between">
-                  <h1 className="text-2xl font-bold">Carlos</h1>
-                  <span className="text-xs font-medium text-muted-foreground">Full-Stack JavaScript Developer</span>
-                </div>
-                {/* ... rest of profile content ... */}
-                <p className="text-sm text-muted-foreground">Check desktop view for full experience</p>
-              </div>
-            </div>
-
             {/* Right Column - Scrollable Content */}
             <div className="flex-1 py-8 lg:pl-8">
-              {/* Header / Theme Toggle */}
-              <div className="flex justify-end mb-12">
+              {/* Header / Theme Toggle (Desktop) */}
+              <div className="hidden lg:flex justify-end mb-12">
                 <ThemeToggle />
               </div>
 

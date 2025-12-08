@@ -106,6 +106,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
                         src={images[currentIndex]}
                         alt={`${projectTitle} - Image ${currentIndex + 1}`}
                         fill
+                        sizes="90vw"
                         className="object-contain"
                         priority
                     />

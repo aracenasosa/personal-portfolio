@@ -1,17 +1,23 @@
-"use client"
-
-import { projects } from "@/data"
 import { ProjectCard } from "@/components/features/projects/ProjectCard"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import Link from "next/link"
+import { sanityFetch } from "@/sanity/lib/live"
+import { portfolioQuery } from "@/sanity/lib/queries"
+import { PortfolioData } from "@/types/sanity"
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+    const { data } = await sanityFetch({ query: portfolioQuery }) as { data: PortfolioData | null }
+
+    if (!data) return <div>Loading...</div>
+
+    const { projects } = data
+
     return (
         <div className="min-h-screen bg-background">
             <div className="max-w-6xl mx-auto px-6 py-8">
                 {/* Navigation */}
                 <Link
-                    href="/#projects"
+                    href="/"
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
                 >
                     <svg
@@ -27,7 +33,7 @@ export default function ProjectsPage() {
                             d="M15 19l-7-7 7-7"
                         />
                     </svg>
-                    Back to Home
+                    Back to Portfolio
                 </Link>
 
                 {/* Header */}
@@ -40,7 +46,7 @@ export default function ProjectsPage() {
                         My Projects
                     </h1>
 
-                    <p className="text-xl text-muted-foreground max-w-3xl">
+                    <p className="text-xl text-muted-foreground w-full">
                         A collection of {projects.length} projects showcasing web applications, mobile apps,
                         and SaaS platforms built with modern technologies and best practices.
                     </p>
@@ -49,7 +55,7 @@ export default function ProjectsPage() {
                 {/* Projects Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {projects.map((project) => (
-                        <ProjectCard key={project.id} {...project} />
+                        <ProjectCard key={project._key} {...project} />
                     ))}
                 </div>
             </div>

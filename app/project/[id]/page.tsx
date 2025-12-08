@@ -1,13 +1,17 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import { projects } from "@/data"
 import { ImageGallery } from "@/components/features/projects/ImageGallery"
 import { ImageModal } from "@/components/features/projects/ImageModal"
 import { TechBadge } from "@/components/ui/TechBadge"
 import { SectionBadge } from "@/components/ui/SectionBadge"
-import { useState, use } from "react"
+import { useState, use, useEffect } from "react"
 import Link from "next/link"
+import { client } from "@/sanity/lib/client"
+import { projectQuery } from "@/sanity/lib/queries"
+import { Project } from "@/types/sanity"
+import { urlFor } from "@/sanity/lib/image"
+import { ProjectDetailSkeleton } from "@/components/features/skeletons/ProjectDetailSkeleton"
 
 interface ProjectDetailPageProps {
     params: Promise<{
@@ -17,27 +21,70 @@ interface ProjectDetailPageProps {
 
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     const { id } = use(params)
-    const projectId = parseInt(id, 10)
-    const project = projects.find((p) => p.id === projectId)
+    const [project, setProject] = useState<Project | null>(null)
+    const [totalProjects, setTotalProjects] = useState(0)
+    const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
-    if (!project || isNaN(projectId)) {
-        notFound()
-    }
+    useEffect(() => {
+        const fetchProject = async () => {
+            try {
+                const result = await client.fetch(projectQuery, { id })
+                if (!result || !result.project) {
+                    notFound()
+                }
+                setProject(result.project)
+                setTotalProjects(result.totalCount || 0)
+            } catch (error) {
+                console.error("Error fetching project:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchProject()
+    }, [id])
+
+    // Scroll to top when loading finishes
+    useEffect(() => {
+        if (!loading) {
+            window.scrollTo({ top: 0, behavior: 'auto' })
+        }
+    }, [loading])
 
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index)
         setModalOpen(true)
     }
 
+
+
+    // ... imports
+
+    if (loading) {
+        return <ProjectDetailSkeleton />
+    }
+
+    if (!project) return null
+
+    const imageUrls = project.images?.map((img) => urlFor(img).url()) || []
+
+    // Process categories: ensure it's an array for badges
+    let categories: string[] = []
+    if (Array.isArray(project.category)) {
+        categories = project.category
+    } else if (typeof project.category === 'string') {
+        categories = (project.category as string).split(',').map(c => c.trim())
+    }
+
     return (
         <div className="min-h-screen bg-background">
             {/* Navigation */}
-            <div className="max-w-6xl mx-auto px-6 py-8">
+            <div className="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between">
                 <Link
-                    href="/#projects"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+                    href="/"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                     <svg
                         className="w-4 h-4"
@@ -52,33 +99,69 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                             d="M15 19l-7-7 7-7"
                         />
                     </svg>
-                    Back to Projects
+                    Back to portfolio
                 </Link>
 
-                {/* Project Header */}
-                <div className="mb-12">
-                    <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />}>
-                        {project.category}
-                    </SectionBadge>
+                {totalProjects > 4 && (
+                    <Link
+                        href="/projects"
+                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        All projects
+                        <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
+                    </Link>
+                )}
+            </div>
 
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 mb-6">
+            <div className="max-w-6xl mx-auto px-6 pb-8">
+                {/* Project Header */}
+                <div className="mb-12 mt-8">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
                         {project.title}
                     </h1>
 
-                    <p className="text-xl text-muted-foreground max-w-3xl">
-                        {project.description}
+                    <p className="text-xl text-muted-foreground w-full mb-8">
+                        {project.fullDescription}
                     </p>
+
+                    {/* Category Badges */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                        {categories.map((cat, index) => (
+                            <span
+                                key={index}
+                                className="px-3 py-1 text-sm font-medium border border-border rounded-md bg-card text-foreground"
+                            >
+                                {cat}
+                            </span>
+                        ))}
+                    </div>
 
                     {/* Quick Stats */}
                     <div className="flex flex-wrap gap-6 mt-8 text-sm">
-                        <div>
-                            <span className="text-muted-foreground">Timeline:</span>
-                            <span className="ml-2 font-medium">{project.timeline}</span>
-                        </div>
-                        <div>
-                            <span className="text-muted-foreground">Role:</span>
-                            <span className="ml-2 font-medium">{project.role}</span>
-                        </div>
+                        {project.timeline && (
+                            <div>
+                                <span className="text-muted-foreground">Timeline:</span>
+                                <span className="ml-2 font-medium">{project.timeline}</span>
+                            </div>
+                        )}
+                        {project.role && (
+                            <div>
+                                <span className="text-muted-foreground">Role:</span>
+                                <span className="ml-2 font-medium">{project.role}</span>
+                            </div>
+                        )}
                         {project.teamSize && (
                             <div>
                                 <span className="text-muted-foreground">Team:</span>
@@ -137,57 +220,55 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 </div>
 
                 {/* Image Gallery */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold mb-6">Project Gallery</h2>
-                    <ImageGallery
-                        images={project.images}
-                        projectTitle={project.title}
-                        onImageClick={handleImageClick}
-                    />
-                </section>
-
-                {/* About the Project */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold mb-6">About the Project</h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                        {project.fullDescription}
-                    </p>
-                </section>
+                {imageUrls.length > 0 && (
+                    <section className="mb-16">
+                        <h2 className="text-2xl font-bold mb-6">Project Gallery</h2>
+                        <ImageGallery
+                            images={imageUrls}
+                            projectTitle={project.title}
+                            onImageClick={handleImageClick}
+                        />
+                    </section>
+                )}
 
                 {/* Technologies */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold mb-6">Technologies Used</h2>
-                    <div className="flex flex-wrap gap-3">
-                        {project.technologies.map((tech) => (
-                            <TechBadge key={tech} name={tech} />
-                        ))}
-                    </div>
-                </section>
+                {project.technologies && project.technologies.length > 0 && (
+                    <section className="mb-16">
+                        <h2 className="text-2xl font-bold mb-6">Technologies Used</h2>
+                        <div className="flex flex-wrap gap-3">
+                            {project.technologies.map((tech) => (
+                                <TechBadge key={tech} name={tech} />
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 {/* Key Features */}
-                <section className="mb-16">
-                    <h2 className="text-2xl font-bold mb-6">Key Features</h2>
-                    <ul className="space-y-3">
-                        {project.features.map((feature, index) => (
-                            <li key={index} className="flex items-start gap-3">
-                                <svg
-                                    className="w-6 h-6 text-primary flex-shrink-0 mt-0.5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <span className="text-muted-foreground">{feature}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </section>
+                {project.features && project.features.length > 0 && (
+                    <section className="mb-16">
+                        <h2 className="text-2xl font-bold mb-6">Key Features</h2>
+                        <ul className="space-y-3">
+                            {project.features.map((feature, index) => (
+                                <li key={index} className="flex items-start gap-3">
+                                    <svg
+                                        className="w-6 h-6 text-primary flex-shrink-0 mt-0.5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                    <span className="text-muted-foreground">{feature}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
 
                 {/* Project Highlights */}
                 {project.highlights && project.highlights.length > 0 && (
@@ -223,9 +304,9 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
             </div>
 
             {/* Image Modal */}
-            {modalOpen && (
+            {modalOpen && imageUrls.length > 0 && (
                 <ImageModal
-                    images={project.images}
+                    images={imageUrls}
                     initialIndex={selectedImageIndex}
                     onClose={() => setModalOpen(false)}
                     projectTitle={project.title}

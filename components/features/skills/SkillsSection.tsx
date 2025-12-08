@@ -21,6 +21,7 @@ export function SkillsSection() {
                                     src={skill.icon}
                                     alt={skill.name}
                                     fill
+                                    sizes="64px"
                                     className="object-contain"
                                 />
                             </div>
