@@ -141,9 +141,10 @@ export default defineType({
                             type: 'text',
                         },
                         {
-                            name: 'fullDescription',
-                            title: 'Full description',
-                            type: 'text',
+                            name: "fullDescription",
+                            title: "Full Description",
+                            type: "array",
+                            of: [{ type: "block" }],
                         },
                         {
                             name: 'images',

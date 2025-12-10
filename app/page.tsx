@@ -47,12 +47,24 @@ export default async function Home() {
               </div>
 
               {/* Sections */}
-              <HeroSection data={data.introduction} />
-              <ProjectsSection projects={data.projects} />
-              <WorkEducationSection data={data.resume} />
-              <AboutSection data={data.about} />
-              <ReviewsSection />
-              <ContactSection />
+              <section id="home">
+                <HeroSection data={data.introduction} />
+              </section>
+              <section id="about">
+                <AboutSection data={data.about} />
+              </section>
+              <section id="projects">
+                <ProjectsSection projects={data.projects} />
+              </section>
+              <section id="work-education">
+                <WorkEducationSection data={data.resume} />
+              </section>
+              <section id="reviews">
+                <ReviewsSection />
+              </section>
+              <section id="contact">
+                <ContactSection />
+              </section>
 
               <footer className="py-8 border-t border-border/50 text-center text-sm text-muted-foreground">
                 © 2025 Carlos Aracena. All rights reserved.

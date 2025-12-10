@@ -12,6 +12,7 @@ import { projectQuery } from "@/sanity/lib/queries"
 import { Project } from "@/types/sanity"
 import { urlFor } from "@/sanity/lib/image"
 import { ProjectDetailSkeleton } from "@/components/features/skeletons/ProjectDetailSkeleton"
+import { PortableText } from "@portabletext/react"
 
 interface ProjectDetailPageProps {
     params: Promise<{
@@ -132,9 +133,9 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                         {project.title}
                     </h1>
 
-                    <p className="text-xl text-muted-foreground w-full mb-8">
-                        {project.fullDescription}
-                    </p>
+                    <div className="text-xl text-muted-foreground w-full mb-8">
+                        <PortableText value={project.fullDescription} />
+                    </div>
 
                     {/* Category Badges */}
                     <div className="flex flex-wrap gap-2 mb-8">

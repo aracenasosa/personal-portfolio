@@ -1,6 +1,7 @@
 import { Resume, ResumeItem } from "@/types/sanity"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
+import { Briefcase } from "lucide-react"
 
 interface TimelineItemProps {
     item: ResumeItem
@@ -30,7 +31,7 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
     return (
         <FadeInSection>
             <section id="education" className="mb-32">
-                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
+                <SectionBadge icon={<Briefcase className="w-3 h-3" />} className="mb-8">
                     Resume
                 </SectionBadge>
 

@@ -26,7 +26,7 @@ export interface Project {
     slug: { current: string };
     category: string[];
     description: string;
-    fullDescription: string;
+    fullDescription: any[]; // Portable Text blocks
     images: SanityImage[];
     technologies: string[];
     features: string[];
