@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, User, Code, Briefcase, Star, Mail, Menu, X } from "lucide-react"
+import { Home, User, Code, Briefcase, Star, Menu, X } from "lucide-react"
 import { NAV_ITEMS } from "@/lib/constants"
 import { useState } from "react"
 
@@ -9,8 +9,7 @@ const iconMap = {
     user: User,
     code: Code,
     briefcase: Briefcase,
-    star: Star,
-    mail: Mail
+    star: Star
 }
 
 export function RightNav() {
@@ -78,7 +77,7 @@ export function RightNav() {
                                 className="flex items-center gap-4 p-4 rounded-lg hover:bg-secondary transition-colors cursor-pointer text-left group"
                                 aria-label={item.label}
                             >
-                                <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                                {Icon && <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />}
                                 <span className="font-medium">{item.label}</span>
                             </button>
                         )

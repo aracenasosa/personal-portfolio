@@ -311,6 +311,62 @@ export default defineType({
             ],
         }),
 
+        // RECOMMENDATIONS
+        defineField({
+            name: 'recommendations',
+            title: 'Recommendations',
+            type: 'array',
+            of: [
+                {
+                    name: 'recommendationItem',
+                    title: 'Recommendation item',
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'name',
+                            title: 'Name',
+                            type: 'string',
+                        },
+                        {
+                            name: 'role',
+                            title: 'Role',
+                            type: 'string',
+                        },
+                        {
+                            name: 'company',
+                            title: 'Company',
+                            type: 'string',
+                        },
+                        {
+                            name: 'date',
+                            title: 'Date',
+                            type: 'string',
+                        },
+                        {
+                            name: 'relationship',
+                            title: 'Relationship',
+                            type: 'string',
+                        },
+                        {
+                            name: 'recommendation',
+                            title: 'Recommendation',
+                            type: 'text',
+                        },
+                        {
+                            name: 'linkedinUrl',
+                            title: 'LinkedIn URL',
+                            type: 'url',
+                        },
+                        {
+                            name: 'image',
+                            title: 'Image',
+                            type: 'image',
+                        }
+                    ],
+                },
+            ],
+        }),
+
         // ABOUT
         defineField({
             name: 'about',

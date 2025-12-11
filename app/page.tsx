@@ -9,7 +9,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { portfolioQuery } from "@/sanity/lib/queries";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { PortfolioData } from "@/types/sanity";
-import { ReviewsSection } from "@/components/features/reviews/ReviewsSection";
+import { RecommendationsSection } from "@/components/features/recommendations/RecommendationsSection";
 import { ProfileCard } from "@/components/layout/profile-card";
 import { RightNav } from "@/components/layout/right-nav";
 
@@ -34,7 +34,7 @@ export default async function Home() {
             </div>
 
             {/* Left Column - Fixed Profile */}
-            <div className="w-full lg:w-[400px] relative px-4 lg:px-0">
+            <div className="w-full [@media(min-width:531px)_and_(max-width:1023px)]:w-[95%] [@media(min-width:531px)_and_(max-width:1023px)]:max-w-[700px] [@media(min-width:531px)_and_(max-width:1023px)]:mx-auto lg:w-[400px] relative px-4 lg:px-0">
               {/*profile*/}
               <ProfileCard data={data.profile} />
             </div>
@@ -59,12 +59,12 @@ export default async function Home() {
               <section id="work-education">
                 <WorkEducationSection data={data.resume} />
               </section>
-              <section id="reviews">
-                <ReviewsSection />
+              <section id="recommendations">
+                <RecommendationsSection data={data.recommendations} />
               </section>
-              <section id="contact">
+              {/* <section id="contact">
                 <ContactSection />
-              </section>
+              </section> */}
 
               <footer className="py-8 border-t border-border/50 text-center text-sm text-muted-foreground">
                 © 2025 Carlos Aracena. All rights reserved.

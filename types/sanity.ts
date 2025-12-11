@@ -72,6 +72,18 @@ export interface Profile {
     image: SanityImage;
 }
 
+export interface Recommendation {
+    _key: string;
+    name: string;
+    role: string;
+    company: string;
+    date: string;
+    relationship: string;
+    recommendation: string;
+    linkedinUrl?: string;
+    image?: SanityImage;
+}
+
 export interface PortfolioData {
     _id: string;
     _type: 'portfolio';
@@ -80,4 +92,5 @@ export interface PortfolioData {
     about: About;
     resume: Resume;
     profile: Profile;
+    recommendations: Recommendation[];
 }

@@ -7,7 +7,7 @@ import { Profile } from "@/types/sanity"
 
 export function ProfileCard({ data }: { data: Profile }) {
     return (
-        <div className="sticky top-8 h-fit flex flex-col gap-6 p-8 rounded-3xl bg-card border border-border/50 shadow-xl">
+        <div className="sticky top-8 h-fit flex flex-col gap-6 [@media(min-width:531px)_and_(max-width:1023px)]:gap-5 p-8 [@media(min-width:531px)_and_(max-width:1023px)]:p-6 rounded-3xl bg-card border border-border/50 shadow-xl">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold">{data.topLeftTitle}</h1>
                 <span className="text-xs font-medium text-muted-foreground">{data.topTitle}</span>
@@ -80,9 +80,9 @@ export function ProfileCard({ data }: { data: Profile }) {
                 )}
             </div>
 
-            <button className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity cursor-pointer">
+            {/* <button className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity cursor-pointer">
                 Let's Work!
-            </button>
+            </button> */}
         </div>
     )
 }

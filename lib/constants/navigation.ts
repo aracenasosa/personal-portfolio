@@ -3,6 +3,5 @@ export const NAV_ITEMS = [
     { id: 'about', label: 'About', icon: 'user' },
     { id: 'projects', label: 'Projects', icon: 'code' },
     { id: 'work-education', label: 'Work & Education', icon: 'briefcase' },
-    { id: 'reviews', label: 'Reviews', icon: 'star' },
-    { id: 'contact', label: 'Contact', icon: 'mail' }
+    { id: 'recommendations', label: 'Recommendations', icon: 'star' }
 ] as const

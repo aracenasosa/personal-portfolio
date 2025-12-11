@@ -43,11 +43,11 @@ export function HeroSection({ data }: HeroSectionProps) {
                     {data.description}
                 </p>
 
-                <div className="flex flex-wrap justify-center gap-6 mt-12 mb-12">
+                <div className="flex flex-col [@media(min-width:1236px)]:flex-row justify-center gap-6 mt-12 mb-12">
                     {data.stats?.map((stat, index) => (
                         <div
                             key={stat._key || index}
-                            className="p-6 rounded-2xl bg-card border border-border/50 w-full sm:flex-1 flex flex-col items-center justify-center text-center"
+                            className="p-6 rounded-2xl bg-card border border-border/50 w-full [@media(min-width:1236px)]:flex-1 flex flex-col items-center justify-center text-center"
                         >
                             <h3 className="text-3xl font-bold mb-1">
                                 <AnimatedCounter value={stat.value} />
