@@ -54,6 +54,7 @@ export interface Resume {
     work: ResumeItem[];
     education: ResumeItem[];
     certifications: ResumeItem[];
+    linkedinUrl?: string;
 }
 
 export interface About {
@@ -84,6 +85,17 @@ export interface Recommendation {
     image?: SanityImage;
 }
 
+export interface SkillItem {
+    _key: string;
+    name: string;
+    image: SanityImage;
+}
+
+export interface Skills {
+    title: string;
+    items: SkillItem[];
+}
+
 export interface PortfolioData {
     _id: string;
     _type: 'portfolio';
@@ -93,4 +105,5 @@ export interface PortfolioData {
     resume: Resume;
     profile: Profile;
     recommendations: Recommendation[];
+    skills: Skills;
 }

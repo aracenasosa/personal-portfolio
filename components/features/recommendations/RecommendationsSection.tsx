@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { Recommendation } from "@/types/sanity"
 import { urlFor } from "@/sanity/lib/image"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
+import { useSwipe } from "@/hooks/useSwipe"
 
 interface RecommendationsSectionProps {
     data: Recommendation[]
@@ -23,12 +24,17 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
         setCurrentIndex((prev) => (prev - 1 + data.length) % data.length)
     }
 
+    const swipeHandlers = useSwipe({
+        onSwipeLeft: nextRecommendation,
+        onSwipeRight: prevRecommendation,
+    })
+
     const currentRecommendation = data[currentIndex]
 
     return (
         <FadeInSection>
             <section id="recommendations" className="mb-32">
-                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
+                <SectionBadge icon={<Star className="w-4 h-4" />} className="mb-8">
                     Recommendations
                 </SectionBadge>
 
@@ -37,7 +43,8 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
                 <div className="relative">
                     {/* Recommendation Card */}
                     <div
-                        className="bg-card border border-border/50 rounded-3xl p-8 md:p-12"
+                        className="bg-card border-2 border-border rounded-3xl p-8 md:p-12 shadow-lg"
+                        {...swipeHandlers}
                     >
                         <div className="flex flex-col md:flex-row gap-6 items-start">
                             {/* Avatar */}

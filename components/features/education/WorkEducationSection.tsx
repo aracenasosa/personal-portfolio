@@ -31,7 +31,7 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
     return (
         <FadeInSection>
             <section id="education" className="mb-32">
-                <SectionBadge icon={<Briefcase className="w-3 h-3" />} className="mb-8">
+                <SectionBadge icon={<Briefcase className="w-4 h-4" />} className="mb-8">
                     Resume
                 </SectionBadge>
 
@@ -66,13 +66,45 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
 
                 <div className="mt-16">
                     <h3 className="text-2xl font-bold mb-8">Certifications & Courses</h3>
-                    <div className="columns-1 md:columns-2 gap-12 space-y-8">
-                        {data.certifications?.map((item) => (
-                            <div key={item._key} className="break-inside-avoid mb-8">
-                                <TimelineItemComponent item={item} />
-                            </div>
-                        ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        {/* Split certifications into two columns manually for better control */}
+                        {(() => {
+                            const certs = data.certifications || [];
+                            const midpoint = Math.ceil(certs.length / 2);
+                            const leftColumn = certs.slice(0, midpoint);
+                            const rightColumn = certs.slice(midpoint);
+
+                            return (
+                                <>
+                                    {/* Left Column */}
+                                    <div className="relative space-y-8 before:absolute before:left-[7px] before:top-4 before:h-[calc(100%-2rem)] before:w-[2px] before:bg-border">
+                                        {leftColumn.map((item) => (
+                                            <TimelineItemComponent key={item._key} item={item} />
+                                        ))}
+                                    </div>
+
+                                    {/* Right Column */}
+                                    {rightColumn.length > 0 && (
+                                        <div className="relative space-y-8 before:absolute before:left-[7px] before:top-4 before:h-[calc(100%-2rem)] before:w-[2px] before:bg-border">
+                                            {rightColumn.map((item) => (
+                                                <TimelineItemComponent key={item._key} item={item} />
+                                            ))}
+                                        </div>
+                                    )}
+                                </>
+                            );
+                        })()}
                     </div>
+                    {data.linkedinUrl && (
+                        <a
+                            href={data.linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline transition-colors mt-8"
+                        >
+                            View on LinkedIn →
+                        </a>
+                    )}
                 </div>
             </section>
         </FadeInSection>

@@ -1,16 +1,19 @@
 "use client"
 
 import { useEffect } from "react"
+import { useLenis } from "lenis/react"
 
 export function ScrollToTop() {
+    const lenis = useLenis()
+
     useEffect(() => {
-        // Scroll to top on component mount with smooth behavior
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-        })
-    }, [])
+        // Force scroll to top immediately on mount
+        if (lenis) {
+            lenis.scrollTo(0, { immediate: true })
+        } else {
+            window.scrollTo(0, 0)
+        }
+    }, [lenis])
 
     return null
 }

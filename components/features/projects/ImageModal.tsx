@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import { useSwipe } from "@/hooks/useSwipe"
 
 interface ImageModalProps {
     images: string[]
@@ -12,6 +13,19 @@ interface ImageModalProps {
 
 export function ImageModal({ images, initialIndex, onClose, projectTitle }: ImageModalProps) {
     const [currentIndex, setCurrentIndex] = useState(initialIndex)
+
+    const goToNext = () => {
+        setCurrentIndex((prev) => (prev + 1) % images.length)
+    }
+
+    const goToPrevious = () => {
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+    }
+
+    const swipeHandlers = useSwipe({
+        onSwipeLeft: goToNext,
+        onSwipeRight: goToPrevious,
+    })
 
     // Keyboard navigation
     useEffect(() => {
@@ -30,14 +44,6 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
             document.body.style.overflow = 'unset'
         }
     }, [currentIndex])
-
-    const goToNext = () => {
-        setCurrentIndex((prev) => (prev + 1) % images.length)
-    }
-
-    const goToPrevious = () => {
-        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
-    }
 
     return (
         <div
@@ -100,6 +106,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
             <div
                 className="relative w-[90vw] h-[90vh] flex items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
+                {...swipeHandlers}
             >
                 <div className="relative w-full h-full">
                     <Image

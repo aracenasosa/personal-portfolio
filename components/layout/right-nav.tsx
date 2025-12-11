@@ -1,12 +1,13 @@
 "use client"
 
-import { Home, User, Code, Briefcase, Star, Menu, X } from "lucide-react"
+import { Home, User, Code, Briefcase, Star, Menu, X, Wrench } from "lucide-react"
 import { NAV_ITEMS } from "@/lib/constants"
 import { useState } from "react"
 
 const iconMap = {
     home: Home,
     user: User,
+    wrench: Wrench,
     code: Code,
     briefcase: Briefcase,
     star: Star
@@ -69,7 +70,7 @@ export function RightNav() {
                 <div className="flex flex-col gap-2 p-6 mt-20">
                     <h2 className="text-lg font-bold mb-6 text-muted-foreground">Navigation</h2>
                     {NAV_ITEMS.map((item) => {
-                        const Icon = iconMap[item.icon as keyof typeof iconMap]
+                        const Icon = iconMap[item.icon as keyof typeof iconMap] || Star
                         return (
                             <button
                                 key={item.id}
@@ -77,7 +78,7 @@ export function RightNav() {
                                 className="flex items-center gap-4 p-4 rounded-lg hover:bg-secondary transition-colors cursor-pointer text-left group"
                                 aria-label={item.label}
                             >
-                                {Icon && <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />}
+                                {Icon && <Icon className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />}
                                 <span className="font-medium">{item.label}</span>
                             </button>
                         )

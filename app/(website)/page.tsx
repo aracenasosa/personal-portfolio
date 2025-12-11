@@ -56,15 +56,15 @@ export default async function Home() {
               <section id="projects">
                 <ProjectsSection projects={data.projects} />
               </section>
+              <section id="skills">
+                <SkillsSection data={data.skills} />
+              </section>
               <section id="work-education">
                 <WorkEducationSection data={data.resume} />
               </section>
               <section id="recommendations">
                 <RecommendationsSection data={data.recommendations} />
               </section>
-              {/* <section id="contact">
-                <ContactSection />
-              </section> */}
 
               <footer className="py-8 border-t border-border/50 text-center text-sm text-muted-foreground">
                 © 2025 Carlos Aracena. All rights reserved.

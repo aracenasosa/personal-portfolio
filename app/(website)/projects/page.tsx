@@ -11,6 +11,7 @@ export default async function ProjectsPage() {
     if (!data) return <div>Loading...</div>
 
     const { projects } = data
+    const sortedProjects = [...projects].sort((a, b) => (a.order || 0) - (b.order || 0))
 
     return (
         <div className="min-h-screen bg-background">
@@ -54,7 +55,7 @@ export default async function ProjectsPage() {
 
                 {/* Projects Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
+                    {sortedProjects.map((project) => (
                         <ProjectCard key={project._key} {...project} />
                     ))}
                 </div>

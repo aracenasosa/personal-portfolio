@@ -6,7 +6,7 @@ import { useTheme } from "next-themes"
 import { motion } from "framer-motion"
 
 export function ThemeToggle() {
-    const { theme, setTheme } = useTheme()
+    const { resolvedTheme, setTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => {
@@ -17,7 +17,7 @@ export function ThemeToggle() {
         return <div className="w-[72px] h-[36px] rounded-full bg-secondary" />
     }
 
-    const isDark = theme === "dark"
+    const isDark = resolvedTheme === "dark"
 
     return (
         <div

@@ -1,6 +1,7 @@
 import { About } from "@/types/sanity"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
+import { User } from "lucide-react"
 
 interface AboutSectionProps {
     data: About
@@ -17,7 +18,7 @@ export function AboutSection({ data }: AboutSectionProps) {
     return (
         <FadeInSection>
             <section id="about" className="mb-32">
-                <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />} className="mb-8">
+                <SectionBadge icon={<User className="w-4 h-4" />} className="mb-8">
                     About
                 </SectionBadge>
 

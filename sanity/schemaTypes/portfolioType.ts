@@ -308,6 +308,11 @@ export default defineType({
                         },
                     ],
                 },
+                {
+                    name: 'linkedinUrl',
+                    title: 'LinkedIn URL for Certifications',
+                    type: 'url',
+                },
             ],
         }),
 
@@ -362,6 +367,44 @@ export default defineType({
                             title: 'Image',
                             type: 'image',
                         }
+                    ],
+                },
+            ],
+        }),
+
+        // SKILLS
+        defineField({
+            name: 'skills',
+            title: 'Skills',
+            type: 'object',
+            fields: [
+                {
+                    name: 'title',
+                    title: 'Section Title',
+                    type: 'string',
+                },
+                {
+                    name: 'items',
+                    title: 'Skills',
+                    type: 'array',
+                    of: [
+                        {
+                            name: 'skillItem',
+                            title: 'Skill Item',
+                            type: 'object',
+                            fields: [
+                                {
+                                    name: 'name',
+                                    title: 'Name',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'image',
+                                    title: 'Image',
+                                    type: 'image',
+                                },
+                            ],
+                        },
                     ],
                 },
             ],

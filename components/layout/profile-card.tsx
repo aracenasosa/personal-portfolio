@@ -7,8 +7,8 @@ import { Profile } from "@/types/sanity"
 
 export function ProfileCard({ data }: { data: Profile }) {
     return (
-        <div className="sticky top-8 h-fit flex flex-col gap-6 [@media(min-width:531px)_and_(max-width:1023px)]:gap-5 p-8 [@media(min-width:531px)_and_(max-width:1023px)]:p-6 rounded-3xl bg-card border border-border/50 shadow-xl">
-            <div className="flex items-center justify-between">
+        <div className="sticky top-8 h-fit flex flex-col gap-6 [@media(min-width:531px)_and_(max-width:1023px)]:gap-5 p-8 [@media(min-width:531px)_and_(max-width:1023px)]:p-6 rounded-3xl bg-card border-2 border-border shadow-xl">
+            <div className="flex items-center justify-between max-[405px]:flex-col max-[405px]:items-start max-[405px]:gap-2">
                 <h1 className="text-2xl font-bold">{data.topLeftTitle}</h1>
                 <span className="text-xs font-medium text-muted-foreground">{data.topTitle}</span>
             </div>
@@ -45,7 +45,7 @@ export function ProfileCard({ data }: { data: Profile }) {
                         href={data.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-3 rounded-full border border-border hover:bg-secondary transition-colors"
+                        className="p-3 rounded-full border-2 border-border hover:bg-secondary hover:border-primary/50 transition-all shadow-sm dark:shadow-none"
                         aria-label="GitHub"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -59,7 +59,7 @@ export function ProfileCard({ data }: { data: Profile }) {
                         href={data.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-3 rounded-full border border-border hover:bg-secondary transition-colors"
+                        className="p-3 rounded-full border-2 border-border hover:bg-secondary hover:border-primary/50 transition-all shadow-sm dark:shadow-none"
                         aria-label="LinkedIn"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
@@ -72,7 +72,7 @@ export function ProfileCard({ data }: { data: Profile }) {
                 {data.email && (
                     <a
                         href={`mailto:${data.email}`}
-                        className="p-3 rounded-full border border-border hover:bg-secondary transition-colors"
+                        className="p-3 rounded-full border-2 border-border hover:bg-secondary hover:border-primary/50 transition-all shadow-sm dark:shadow-none"
                         aria-label="Email"
                     >
                         <Mail className="w-5 h-5" />

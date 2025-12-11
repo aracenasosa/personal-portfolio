@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation"
 import { ImageGallery } from "@/components/features/projects/ImageGallery"
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { ImageModal } from "@/components/features/projects/ImageModal"
 import { TechBadge } from "@/components/ui/TechBadge"
 import { SectionBadge } from "@/components/ui/SectionBadge"
@@ -48,12 +49,9 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     }, [id])
 
     // Scroll to top when loading finishes
-    useEffect(() => {
-        if (!loading) {
-            window.scrollTo({ top: 0, behavior: 'auto' })
-        }
-    }, [loading])
+    // ... imports
 
+    // Remove the manual useEffect
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index)
         setModalOpen(true)
@@ -81,6 +79,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
     return (
         <div className="min-h-screen bg-background">
+            <ScrollToTop />
             {/* Navigation */}
             <div className="max-w-6xl mx-auto px-6 py-8 flex items-center justify-between">
                 <Link
@@ -138,16 +137,16 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     </div>
 
                     {/* Category Badges */}
-                    <div className="flex flex-wrap gap-2 mb-8">
+                    {/* <div className="flex flex-wrap gap-2 mb-8">
                         {categories.map((cat, index) => (
                             <span
                                 key={index}
-                                className="px-3 py-1 text-sm font-medium border border-border rounded-md bg-card text-foreground"
+                                className="px-3 py-1 text-sm font-medium border-2 border-border rounded-md bg-card text-foreground shadow-sm dark:shadow-none"
                             >
                                 {cat}
                             </span>
                         ))}
-                    </div>
+                    </div> */}
 
                     {/* Quick Stats */}
                     <div className="flex flex-wrap gap-6 mt-8 text-sm">
@@ -201,7 +200,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                                 href={project.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-card border border-border/50 hover:border-primary/50 font-medium transition-colors"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-border bg-background hover:bg-secondary transition-colors font-medium cursor-pointer shadow-md dark:shadow-none hover:shadow-lg dark:hover:shadow-none"
                             >
                                 <svg
                                     className="w-5 h-5"
@@ -279,7 +278,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                             {project.highlights.map((highlight, index) => (
                                 <div
                                     key={index}
-                                    className="p-6 rounded-2xl bg-card border border-border/50"
+                                    className="p-6 rounded-2xl bg-card border-2 border-border shadow-md dark:shadow-none"
                                 >
                                     <div className="flex items-start gap-3">
                                         <svg
