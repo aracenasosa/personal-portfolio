@@ -12,11 +12,36 @@ import { PortfolioData } from "@/types/sanity";
 import { RecommendationsSection } from "@/components/features/recommendations/RecommendationsSection";
 import { ProfileCard } from "@/components/layout/profile-card";
 import { RightNav } from "@/components/layout/right-nav";
+import { DataFetchFallback } from "@/components/ui/DataFetchFallback";
 
 export default async function Home() {
 
-  const { data } = await sanityFetch({ query: portfolioQuery }) as { data: PortfolioData | null };
-  console.log(data);
+  let data: PortfolioData | null = null;
+  let error = false;
+
+  try {
+    const timeoutPromise = new Promise<{ data: null }>((_, reject) =>
+      setTimeout(() => reject(new Error("Request timed out")), 10000)
+    );
+
+    const fetchPromise = sanityFetch({ query: portfolioQuery }) as Promise<{ data: PortfolioData | null }>;
+
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+    data = result.data;
+  } catch (err) {
+    console.error("Data fetching failed or timed out:", err);
+    error = true;
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="w-full max-w-md p-6">
+          <DataFetchFallback message="We couldn't load the portfolio data in time. Please check your connection and try again." />
+        </div>
+      </main>
+    );
+  }
 
   if (!data) return <div>Loading...</div>;
 

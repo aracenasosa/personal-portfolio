@@ -5,7 +5,6 @@ import { ImageGallery } from "@/components/features/projects/ImageGallery"
 import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { ImageModal } from "@/components/features/projects/ImageModal"
 import { TechBadge } from "@/components/ui/TechBadge"
-import { SectionBadge } from "@/components/ui/SectionBadge"
 import { useState, use, useEffect } from "react"
 import Link from "next/link"
 import { client } from "@/sanity/lib/client"
@@ -14,6 +13,7 @@ import { Project } from "@/types/sanity"
 import { urlFor } from "@/sanity/lib/image"
 import { ProjectDetailSkeleton } from "@/components/features/skeletons/ProjectDetailSkeleton"
 import { PortableText } from "@portabletext/react"
+import { DataFetchFallback } from "@/components/ui/DataFetchFallback"
 
 interface ProjectDetailPageProps {
     params: Promise<{
@@ -29,10 +29,20 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     const [modalOpen, setModalOpen] = useState(false)
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
+    const [error, setError] = useState(false)
+
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const result = await client.fetch(projectQuery, { id })
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error("Request timed out")), 10000)
+                )
+
+                const fetchPromise = client.fetch(projectQuery, { id })
+
+                // Use Promise.race to race the fetch against the timeout
+                const result: any = await Promise.race([fetchPromise, timeoutPromise])
+
                 if (!result || !result.project) {
                     notFound()
                 }
@@ -40,6 +50,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 setTotalProjects(result.totalCount || 0)
             } catch (error) {
                 console.error("Error fetching project:", error)
+                setError(true)
             } finally {
                 setLoading(false)
             }
@@ -57,25 +68,24 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
         setModalOpen(true)
     }
 
-
-
-    // ... imports
-
     if (loading) {
         return <ProjectDetailSkeleton />
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <DataFetchFallback
+                    message="The project details took too long to load."
+                    onRetry={() => window.location.reload()}
+                />
+            </div>
+        )
     }
 
     if (!project) return null
 
     const imageUrls = project.images?.map((img) => urlFor(img).url()) || []
-
-    // Process categories: ensure it's an array for badges
-    let categories: string[] = []
-    if (Array.isArray(project.category)) {
-        categories = project.category
-    } else if (typeof project.category === 'string') {
-        categories = (project.category as string).split(',').map(c => c.trim())
-    }
 
     return (
         <div className="min-h-screen bg-background">
@@ -135,18 +145,6 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     <div className="text-xl text-muted-foreground w-full mb-8">
                         <PortableText value={project.fullDescription} />
                     </div>
-
-                    {/* Category Badges */}
-                    {/* <div className="flex flex-wrap gap-2 mb-8">
-                        {categories.map((cat, index) => (
-                            <span
-                                key={index}
-                                className="px-3 py-1 text-sm font-medium border-2 border-border rounded-md bg-card text-foreground shadow-sm dark:shadow-none"
-                            >
-                                {cat}
-                            </span>
-                        ))}
-                    </div> */}
 
                     {/* Quick Stats */}
                     <div className="flex flex-wrap gap-6 mt-8 text-sm">
