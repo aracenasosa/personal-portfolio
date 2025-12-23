@@ -1,10 +1,9 @@
-import { cn } from "@/lib/utils"
-import { ReactNode } from "react"
+import { cn } from "@/lib/utils";
 
 interface SectionBadgeProps {
-    children: ReactNode
+    children?: React.ReactNode
     className?: string
-    icon?: ReactNode
+    icon?: React.ReactNode
 }
 
 export function SectionBadge({ children, className, icon }: SectionBadgeProps) {

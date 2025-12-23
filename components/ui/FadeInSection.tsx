@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { ReactNode } from "react"
 
 interface FadeInSectionProps {
-    children: ReactNode
+    children?: ReactNode
     delay?: number
     duration?: number
     className?: string

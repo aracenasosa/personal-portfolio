@@ -20,7 +20,9 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node", "react", "react-dom", "babel__core"]
   },
   "include": [
     "next-env.d.ts",

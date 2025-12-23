@@ -23,7 +23,7 @@ export function HeroSection({ data }: HeroSectionProps) {
                             href={data.cv}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-8 py-3 rounded-xl bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors cursor-pointer inline-block text-center"
+                            className="px-8 py-3 rounded-xl border-2 border-transparent bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors cursor-pointer inline-block text-center"
                         >
                             Download Resume
                         </a>
