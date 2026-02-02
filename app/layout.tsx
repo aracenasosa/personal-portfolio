@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { portfolioQuery } from "@/sanity/lib/queries";
 import { PortfolioData } from "@/types/sanity";
 import { urlFor } from "@/sanity/lib/image";
@@ -39,7 +39,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body>{children}</body>
+            <body>
+                {children}
+                <SanityLive />
+            </body>
         </html>
     );
 }
