@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Professional Portfolio
 
-## Getting Started
+A modern, high-performance personal portfolio built with **Next.js 16**, **React 19**, and **Sanity CMS**. This project showcases professional experience, technical skills, and featured projects using state-of-the-art web technologies and animations.
 
-First, run the development server:
+## 🚀 Overview
+
+This portfolio serves as a centralized hub for professional storytelling. It features a dynamic content management system (Sanity) that allows for easy updates to projects, skills, and personal information without direct code changes. The UI is designed with a focus on smooth interactions, accessibility, and modern aesthetics.
+
+## ✨ Key Features
+
+- **Dynamic Content**: Powered by Sanity CMS for seamless data management.
+- **Micro-interactions**: Smooth animations using Framer Motion.
+- **Fluid Scrolling**: Optimized scroll experience with Lenis.
+- **Sectioned Architecture**: Dedicated sections for Hero, About, Projects, Education, Skills, and Recommendations.
+- **Responsive Design**: Fully optimized for all screen sizes using Tailwind CSS 4.
+- **High Performance**: Built on Next.js 16 with Turbopack for lightning-fast development and optimized production builds.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: [Next.js 16](https://nextjs.org), [React 19](https://reactjs.org)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com), [Next-themes](https://github.com/pacocoursey/next-themes)
+- **Animations**: [Framer Motion](https://motion.dev), [Lenis](https://lenis.darkroom.engineering)
+- **Content Management**: [Sanity CMS](https://www.sanity.io)
+- **Icons**: [Lucide React](https://lucide.dev)
+- **Deployment**: [Vercel](https://vercel.com)
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+├── app/                  # Next.js App Router (Website & Studio)
+├── components/           # Reusable UI and Feature components
+│   ├── features/         # Hero, About, Projects, Skills, etc.
+│   ├── layout/           # Shared layout components (Navbar, Footer)
+│   ├── ui/               # Base UI components (Buttons, Cards)
+│   └── providers/        # Context providers (Theme, Lenis)
+├── sanity/               # Sanity CMS configuration and schemas
+├── lib/                  # Utility functions and shared logic
+├── public/               # Static assets
+└── package.json          # Project dependencies and scripts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js (Latest LTS recommended)
+- npm, yarn, pnpm, or bun
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone <repository-url>
+   cd personal-portfolio
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory and add your Sanity credentials:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```env
+   NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+   NEXT_PUBLIC_SANITY_DATASET=production
+   ```
+
+4. **Run the development server**:
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Open the application**:
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the result.
+
+## 📝 Scripts
+
+- `npm run dev`: Starts the development server with Turbopack.
+- `npm run build`: Creates an optimized production build.
+- `npm run start`: Starts the production server.
+- `npm run lint`: Runs ESLint to check for code quality issues.
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have any suggestions or find any bugs, please open an issue or submit a pull request.
