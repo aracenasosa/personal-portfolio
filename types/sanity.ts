@@ -101,6 +101,7 @@ export interface PortfolioData {
     _type: 'portfolio';
     introduction: Introduction;
     projects: Project[];
+    maxProjectsOnHome?: number;
     about: About;
     resume: Resume;
     profile: Profile;

@@ -4,17 +4,21 @@ import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import Link from "next/link"
 import { Code } from "lucide-react"
-
-const MAX_PROJECTS_ON_HOME = 4
+import { getValidMaxProjects } from "@/lib/utils"
 
 interface ProjectsSectionProps {
     projects: Project[]
+    maxProjectsOnHome?: number
 }
 
-export default function ProjectsSection({ projects: sanityProjects }: ProjectsSectionProps) {
+export default function ProjectsSection({ 
+    projects: sanityProjects,
+    maxProjectsOnHome = 6
+}: ProjectsSectionProps) {
+    const validMaxProjects = getValidMaxProjects(maxProjectsOnHome)
     const sortedProjects = [...(sanityProjects || [])].sort((a, b) => (a.order || 0) - (b.order || 0))
-    const displayedProjects = sortedProjects.slice(0, MAX_PROJECTS_ON_HOME)
-    const hasMoreProjects = sortedProjects.length > MAX_PROJECTS_ON_HOME
+    const displayedProjects = sortedProjects.slice(0, validMaxProjects)
+    const hasMoreProjects = sortedProjects.length > validMaxProjects
 
     return (
         <FadeInSection>

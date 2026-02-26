@@ -7,81 +7,81 @@ export default defineType({
     type: 'document',
     fields: [
         // PROFILE
-        defineField({
+        {
             name: 'profile',
             title: 'Profile',
             type: 'object',
             fields: [
-                defineField({
+                {
                     name: 'topTitle',
                     title: 'Top Title',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'topLeftTitle',
                     title: 'Top Left Title',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'image',
                     title: 'Image',
                     type: 'image',
-                }),
-                defineField({
+                },
+                {
                     name: 'specialization',
                     title: 'Specialization',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'baseIn',
                     title: 'Base in',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'email',
                     title: 'Email',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'github',
                     title: 'Github',
                     type: 'url',
-                }),
-                defineField({
+                },
+                {
                     name: 'linkedin',
                     title: 'Linkedin',
                     type: 'url',
-                }),
+                },
             ],
-        }),
+        },
 
         // INTRODUCTION
-        defineField({
+        {
             name: 'introduction',
             title: 'Introduction',
             type: 'object',
             fields: [
-                defineField({
+                {
                     name: 'title',
                     title: 'Title',
                     type: 'string',
-                }),
-                defineField({
+                },
+                {
                     name: 'description',
                     title: 'Description',
                     type: 'text',
-                }),
-                defineField({
+                },
+                {
                     name: 'cv',
                     title: 'CV URL',
                     type: 'url',
-                }),
-                defineField({
+                },
+                {
                     name: 'cl',
                     title: 'Cover Letter URL',
                     type: 'url',
-                }),
-                defineField({
+                },
+                {
                     name: 'stats',
                     title: 'Stats',
                     type: 'array',
@@ -104,12 +104,12 @@ export default defineType({
                             ],
                         },
                     ],
-                }),
+                },
             ],
-        }),
+        },
 
         // PROJECTS
-        defineField({
+        {
             name: 'projects',
             title: 'Projects',
             type: 'array',
@@ -188,10 +188,20 @@ export default defineType({
                     ],
                 },
             ],
+        },
+
+        // MAX PROJECTS ON HOME
+        defineField({
+            name: 'maxProjectsOnHome',
+            title: 'Max Projects on Home Page',
+            type: 'number',
+            description: 'Maximum number of projects to display on the home page (default: 4)',
+            validation: (Rule) => Rule.min(1).integer().positive(),
+            initialValue: 4,
         }),
 
         // RESUME
-        defineField({
+        {
             name: 'resume',
             title: 'Resume',
             type: 'object',
@@ -314,10 +324,10 @@ export default defineType({
                     type: 'url',
                 },
             ],
-        }),
+        },
 
         // RECOMMENDATIONS
-        defineField({
+        {
             name: 'recommendations',
             title: 'Recommendations',
             type: 'array',
@@ -370,10 +380,10 @@ export default defineType({
                     ],
                 },
             ],
-        }),
+        },
 
         // SKILLS
-        defineField({
+        {
             name: 'skills',
             title: 'Skills',
             type: 'object',
@@ -408,10 +418,10 @@ export default defineType({
                     ],
                 },
             ],
-        }),
+        },
 
         // ABOUT
-        defineField({
+        {
             name: 'about',
             title: 'About',
             type: 'object',
@@ -427,6 +437,6 @@ export default defineType({
                     type: 'text',
                 },
             ],
-        }),
+        },
     ],
 })

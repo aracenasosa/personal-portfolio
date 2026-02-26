@@ -79,7 +79,10 @@ export default async function Home() {
                 <AboutSection data={data.about} />
               </section>
               <section id="projects">
-                <ProjectsSection projects={data.projects} />
+                <ProjectsSection 
+                  projects={data.projects} 
+                  maxProjectsOnHome={data.maxProjectsOnHome}
+                />
               </section>
               <section id="skills">
                 <SkillsSection data={data.skills} />
