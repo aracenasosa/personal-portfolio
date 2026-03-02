@@ -143,7 +143,18 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     </h1>
 
                     <div className="text-xl text-muted-foreground w-full mb-8">
-                        <PortableText value={project.fullDescription} />
+                        <PortableText
+                            value={project.fullDescription}
+                            components={{
+                                block: {
+                                    normal: ({ children }) => (
+                                        <p className="mb-6 leading-8 text-muted-foreground">
+                                            {children}
+                                        </p>
+                                    ),
+                                },
+                            }}
+                        />
                     </div>
 
                     {/* Quick Stats */}
