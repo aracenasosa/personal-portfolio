@@ -2,8 +2,7 @@ import { defineQuery } from "next-sanity";
 
 export const portfolioQuery = defineQuery(`
     *[_type == "portfolio"][0] {
-        ...,
-        maxProjectsOnHome
+        ...
     }
 `);
 

@@ -5,6 +5,8 @@ import { sanityFetch } from "@/sanity/lib/live"
 import { portfolioQuery } from "@/sanity/lib/queries"
 import { PortfolioData } from "@/types/sanity"
 import { DataFetchFallback } from "@/components/ui/DataFetchFallback"
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
+import { FadeInSection } from "@/components/ui/FadeInSection"
 
 export default async function ProjectsPage() {
     let data: PortfolioData | null = null
@@ -39,8 +41,12 @@ export default async function ProjectsPage() {
     const { projects } = data
     const sortedProjects = [...projects].sort((a, b) => (a.order || 0) - (b.order || 0))
 
+    const workProjects = sortedProjects.filter((p) => p.projectType === "work")
+    const personalProjects = sortedProjects.filter((p) => !p.projectType || p.projectType === "personal")
+
     return (
         <div className="min-h-screen bg-background">
+            <ScrollToTop />
             <div className="max-w-6xl mx-auto px-6 py-8">
                 {/* Navigation */}
                 <Link
@@ -79,12 +85,33 @@ export default async function ProjectsPage() {
                     </p>
                 </div>
 
-                {/* Projects Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sortedProjects.map((project) => (
-                        <ProjectCard key={project._key} {...project} />
-                    ))}
-                </div>
+                {/* Work Projects Section */}
+                {workProjects.length > 0 && (
+                    <div className="mb-16">
+                        <h2 className="text-3xl font-bold mb-8">Work Projects</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
+                            {workProjects.map((project, index) => (
+                                <FadeInSection key={project._key} delay={index * 0.1}>
+                                    <ProjectCard {...project} />
+                                </FadeInSection>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Personal Projects Section */}
+                {personalProjects.length > 0 && (
+                    <div className="mb-16">
+                        <h2 className="text-3xl font-bold mb-8">Personal Projects</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
+                            {personalProjects.map((project, index) => (
+                                <FadeInSection key={project._key} delay={index * 0.1}>
+                                    <ProjectCard {...project} />
+                                </FadeInSection>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

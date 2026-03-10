@@ -3,47 +3,68 @@ import { ProjectCard } from "./ProjectCard"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import Link from "next/link"
-import { Code } from "lucide-react"
-import { getValidMaxProjects } from "@/lib/utils"
+import { Code, Briefcase, User, ArrowRight } from "lucide-react"
 
 interface ProjectsSectionProps {
     projects: Project[]
-    maxProjectsOnHome?: number
+    maxWorkProjects?: number
+    maxPersonalProjects?: number
 }
 
 export default function ProjectsSection({ 
     projects: sanityProjects,
-    maxProjectsOnHome = 6
+    maxWorkProjects = 3,
+    maxPersonalProjects = 3,
 }: ProjectsSectionProps) {
-    const validMaxProjects = getValidMaxProjects(maxProjectsOnHome)
     const sortedProjects = [...(sanityProjects || [])].sort((a, b) => (a.order || 0) - (b.order || 0))
-    const displayedProjects = sortedProjects.slice(0, validMaxProjects)
-    const hasMoreProjects = sortedProjects.length > validMaxProjects
+
+    const workProjects = sortedProjects.filter(p => p.projectType === 'work').slice(0, maxWorkProjects)
+    const personalProjects = sortedProjects.filter(p => !p.projectType || p.projectType === 'personal').slice(0, maxPersonalProjects)
 
     return (
         <FadeInSection>
-            <section id="projects" className="mb-32">
-                <div className="flex items-center justify-between mb-10">
+            <section id="projects" className="mb-32 space-y-20">
+                <div className="flex items-center justify-between">
                     <SectionBadge icon={<Code className="w-4 h-4" />}>
                         Projects
                     </SectionBadge>
-                    {hasMoreProjects && (
-                        <Link
-                            href="/projects"
-                            className="text-sm font-medium hover:text-primary transition-colors"
-                        >
-                            View All Projects →
-                        </Link>
-                    )}
+                    <Link
+                        href="/projects"
+                        className="group flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        View All Projects
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
                 </div>
 
-                <h2 className="text-3xl font-bold mb-8">My Featured Projects</h2>
+                {workProjects.length > 0 && (
+                    <div className="space-y-8">
+                        <div className="flex items-center gap-3">
+                            <Briefcase className="w-6 h-6 text-primary" />
+                            <h2 className="text-3xl font-bold">Work Projects</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
+                            {workProjects.map((project) => (
+                                <ProjectCard key={project._key || project.slug.current} {...project} />
+                            ))}
+                        </div>
+                    </div>
+                )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {displayedProjects.map((project) => (
-                        <ProjectCard key={project._key || project.slug.current} {...project} />
-                    ))}
-                </div>
+                {personalProjects.length > 0 && (
+                    <div className="space-y-8">
+                        <div className="flex items-center gap-3">
+                            <User className="w-6 h-6 text-primary" />
+                            <h2 className="text-3xl font-bold">Personal Projects</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
+                            {personalProjects.map((project) => (
+                                <ProjectCard key={project._key || project.slug.current} {...project} />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
             </section>
         </FadeInSection>
     )

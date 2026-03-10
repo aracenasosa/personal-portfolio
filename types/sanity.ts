@@ -1,110 +1,112 @@
 export interface SanityImage {
-    _type: 'image';
-    asset: {
-        _ref: string;
-        _type: 'reference';
-    };
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
 }
 
 export interface Stat {
-    _key: string;
-    value: string;
-    label: string;
+  _key: string;
+  value: string;
+  label: string;
 }
 
 export interface Introduction {
-    title: string;
-    description: string;
-    cv: string;
-    cl: string;
-    stats: Stat[];
+  title: string;
+  description: string;
+  cv: string;
+  cl: string;
+  stats: Stat[];
 }
 
 export interface Project {
-    _key?: string;
-    title: string;
-    slug: { current: string };
-    category: string[];
-    description: string;
-    fullDescription: any[]; // Portable Text blocks
-    images: SanityImage[];
-    technologies: string[];
-    features: string[];
-    liveUrl: string;
-    githubUrl: string;
-    timeline: string;
-    role: string;
-    teamSize: string;
-    highlights: string[];
-    order: number;
+  _key?: string;
+  title: string;
+  projectType?: "work" | "personal";
+  slug: { current: string };
+  category: string[];
+  description: string;
+  fullDescription: any[]; // Portable Text blocks
+  images: SanityImage[];
+  technologies: string[];
+  features: string[];
+  liveUrl: string;
+  githubUrl: string;
+  timeline: string;
+  role: string;
+  teamSize: string;
+  highlights: string[];
+  order: number;
 }
 
 export interface ResumeItem {
-    _key: string;
-    id?: string;
-    title: string;
-    organization: string;
-    period: string;
-    description: string;
+  _key: string;
+  id?: string;
+  title: string;
+  organization: string;
+  period: string;
+  description: string;
 }
 
 export interface Resume {
-    title: string;
-    description: string;
-    work: ResumeItem[];
-    education: ResumeItem[];
-    certifications: ResumeItem[];
-    linkedinUrl?: string;
+  title: string;
+  description: string;
+  work: ResumeItem[];
+  education: ResumeItem[];
+  certifications: ResumeItem[];
+  linkedinUrl?: string;
 }
 
 export interface About {
-    title: string;
-    description: string;
+  title: string;
+  description: string;
 }
 
 export interface Profile {
-    topTitle: string;
-    topLeftTitle: string;
-    specialization: string;
-    baseIn: string;
-    email: string;
-    github: string;
-    linkedin: string;
-    image: SanityImage;
+  topTitle: string;
+  topLeftTitle: string;
+  specialization: string;
+  baseIn: string;
+  email: string;
+  github: string;
+  linkedin: string;
+  image: SanityImage;
 }
 
 export interface Recommendation {
-    _key: string;
-    name: string;
-    role: string;
-    company: string;
-    date: string;
-    relationship: string;
-    recommendation: string;
-    linkedinUrl?: string;
-    image?: SanityImage;
+  _key: string;
+  name: string;
+  role: string;
+  company: string;
+  date: string;
+  relationship: string;
+  recommendation: string;
+  linkedinUrl?: string;
+  image?: SanityImage;
 }
 
 export interface SkillItem {
-    _key: string;
-    name: string;
-    image: SanityImage;
+  _key: string;
+  name: string;
+  image: SanityImage;
 }
 
 export interface Skills {
-    title: string;
-    items: SkillItem[];
+  title: string;
+  items: SkillItem[];
 }
 
 export interface PortfolioData {
-    _id: string;
-    _type: 'portfolio';
-    introduction: Introduction;
-    projects: Project[];
-    maxProjectsOnHome?: number;
-    about: About;
-    resume: Resume;
-    profile: Profile;
-    recommendations: Recommendation[];
-    skills: Skills;
+  _id: string;
+  _type: "portfolio";
+  introduction: Introduction;
+  maxWorkProjects?: number;
+  maxPersonalProjects?: number;
+  projects: Project[];
+  about: About;
+  resume: Resume;
+  profile: Profile;
+  recommendations: Recommendation[];
+  skills: Skills;
 }
