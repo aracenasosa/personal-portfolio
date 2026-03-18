@@ -114,8 +114,8 @@ export default defineType({
       title: "Work Projects Section Title",
       type: "string",
       description:
-        "Title for the Work Projects section (default: Work Projects)",
-      initialValue: "Work Projects",
+        "Title for the Work Projects section (default: Production Projects)",
+      initialValue: "Production Projects",
     },
     {
       name: "personalProjectsTitle",
