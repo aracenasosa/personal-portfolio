@@ -103,6 +103,8 @@ export interface PortfolioData {
   introduction: Introduction;
   maxWorkProjects?: number;
   maxPersonalProjects?: number;
+  workProjectsTitle?: string;
+  personalProjectsTitle?: string;
   projects: Project[];
   about: About;
   resume: Resume;

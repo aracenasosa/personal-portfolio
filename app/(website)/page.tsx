@@ -83,6 +83,8 @@ export default async function Home() {
                   projects={data.projects} 
                   maxWorkProjects={data.maxWorkProjects}
                   maxPersonalProjects={data.maxPersonalProjects}
+                  workProjectsTitle={data.workProjectsTitle}
+                  personalProjectsTitle={data.personalProjectsTitle}
                 />
               </section>
               <section id="skills">

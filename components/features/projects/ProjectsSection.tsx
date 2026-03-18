@@ -9,12 +9,16 @@ interface ProjectsSectionProps {
     projects: Project[]
     maxWorkProjects?: number
     maxPersonalProjects?: number
+    workProjectsTitle?: string
+    personalProjectsTitle?: string
 }
 
 export default function ProjectsSection({ 
     projects: sanityProjects,
     maxWorkProjects = 3,
     maxPersonalProjects = 3,
+    workProjectsTitle = "Production Projects",
+    personalProjectsTitle = "Personal Projects",
 }: ProjectsSectionProps) {
     const sortedProjects = [...(sanityProjects || [])].sort((a, b) => (a.order || 0) - (b.order || 0))
 
@@ -41,7 +45,7 @@ export default function ProjectsSection({
                     <div className="space-y-8">
                         <div className="flex items-center gap-3">
                             <Briefcase className="w-6 h-6 text-primary" />
-                            <h2 className="text-3xl font-bold">Work Projects</h2>
+                            <h2 className="text-3xl font-bold">{workProjectsTitle}</h2>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
                             {workProjects.map((project) => (
@@ -55,7 +59,7 @@ export default function ProjectsSection({
                     <div className="space-y-8">
                         <div className="flex items-center gap-3">
                             <User className="w-6 h-6 text-primary" />
-                            <h2 className="text-3xl font-bold">Personal Projects</h2>
+                            <h2 className="text-3xl font-bold">{personalProjectsTitle}</h2>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
                             {personalProjects.map((project) => (

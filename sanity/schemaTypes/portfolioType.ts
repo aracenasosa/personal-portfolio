@@ -110,6 +110,22 @@ export default defineType({
 
     // PORTFOLIO SETTINGS
     {
+      name: "workProjectsTitle",
+      title: "Work Projects Section Title",
+      type: "string",
+      description:
+        "Title for the Work Projects section (default: Work Projects)",
+      initialValue: "Work Projects",
+    },
+    {
+      name: "personalProjectsTitle",
+      title: "Personal Projects Section Title",
+      type: "string",
+      description:
+        "Title for the Personal Projects section (default: Personal Projects)",
+      initialValue: "Personal Projects",
+    },
+    {
       name: "maxWorkProjects",
       title: "Max Work Projects on Home",
       type: "number",
