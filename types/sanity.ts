@@ -1,3 +1,11 @@
+import type { LocalizedValue } from "@/lib/i18n";
+
+export type PortableTextBlock = {
+  _type: string;
+  _key?: string;
+  [key: string]: unknown;
+};
+
 export interface SanityImage {
   _type: "image";
   asset: {
@@ -9,12 +17,12 @@ export interface SanityImage {
 export interface Stat {
   _key: string;
   value: string;
-  label: string;
+  label: LocalizedValue<string>;
 }
 
 export interface Introduction {
-  title: string;
-  description: string;
+  title: LocalizedValue<string>;
+  description: LocalizedValue<string>;
   cv: string;
   cl: string;
   stats: Stat[];
@@ -22,36 +30,36 @@ export interface Introduction {
 
 export interface Project {
   _key?: string;
-  title: string;
+  title: LocalizedValue<string>;
   projectType?: "work" | "personal";
   slug: { current: string };
-  category: string[];
-  description: string;
-  fullDescription: any[]; // Portable Text blocks
+  category: LocalizedValue<string[]>;
+  description: LocalizedValue<string>;
+  fullDescription: LocalizedValue<PortableTextBlock[]>; // Portable Text blocks
   images: SanityImage[];
   technologies: string[];
-  features: string[];
+  features: LocalizedValue<string[]>;
   liveUrl: string;
   githubUrl: string;
-  timeline: string;
-  role: string;
-  teamSize: string;
-  highlights: string[];
+  timeline: LocalizedValue<string>;
+  role: LocalizedValue<string>;
+  teamSize: LocalizedValue<string>;
+  highlights: LocalizedValue<string[]>;
   order: number;
 }
 
 export interface ResumeItem {
   _key: string;
   id?: string;
-  title: string;
-  organization: string;
-  period: string;
-  description: string;
+  title: LocalizedValue<string>;
+  organization: LocalizedValue<string>;
+  period: LocalizedValue<string>;
+  description: LocalizedValue<string>;
 }
 
 export interface Resume {
-  title: string;
-  description: string;
+  title: LocalizedValue<string>;
+  description: LocalizedValue<string>;
   work: ResumeItem[];
   education: ResumeItem[];
   certifications: ResumeItem[];
@@ -59,15 +67,15 @@ export interface Resume {
 }
 
 export interface About {
-  title: string;
-  description: string;
+  title: LocalizedValue<string>;
+  description: LocalizedValue<string>;
 }
 
 export interface Profile {
-  topTitle: string;
-  topLeftTitle: string;
-  specialization: string;
-  baseIn: string;
+  topTitle: LocalizedValue<string>;
+  topLeftTitle: LocalizedValue<string>;
+  specialization: LocalizedValue<string>;
+  baseIn: LocalizedValue<string>;
   email: string;
   github: string;
   linkedin: string;
@@ -77,23 +85,23 @@ export interface Profile {
 export interface Recommendation {
   _key: string;
   name: string;
-  role: string;
+  role: LocalizedValue<string>;
   company: string;
-  date: string;
-  relationship: string;
-  recommendation: string;
+  date: LocalizedValue<string>;
+  relationship: LocalizedValue<string>;
+  recommendation: LocalizedValue<string>;
   linkedinUrl?: string;
   image?: SanityImage;
 }
 
 export interface SkillItem {
   _key: string;
-  name: string;
+  name: LocalizedValue<string>;
   image: SanityImage;
 }
 
 export interface Skills {
-  title: string;
+  title: LocalizedValue<string>;
   items: SkillItem[];
 }
 
@@ -103,8 +111,8 @@ export interface PortfolioData {
   introduction: Introduction;
   maxWorkProjects?: number;
   maxPersonalProjects?: number;
-  workProjectsTitle?: string;
-  personalProjectsTitle?: string;
+  workProjectsTitle?: LocalizedValue<string>;
+  personalProjectsTitle?: LocalizedValue<string>;
   projects: Project[];
   about: About;
   resume: Resume;

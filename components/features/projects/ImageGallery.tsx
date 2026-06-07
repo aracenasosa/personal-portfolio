@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface ImageGalleryProps {
     images: string[]
@@ -10,6 +11,7 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images, projectTitle, onImageClick }: ImageGalleryProps) {
+    const { dictionary } = useLanguage()
     const [showAll, setShowAll] = useState(false)
     // On mobile, show only first 4 images unless "Show all" is clicked, but always show all on desktop
     const MOBILE_PREVIEW_COUNT = 4
@@ -32,7 +34,7 @@ export function ImageGallery({ images, projectTitle, onImageClick }: ImageGaller
                         >
                             <Image
                                 src={image}
-                                alt={`${projectTitle} - Image ${index + 1}`}
+                                alt={dictionary.labels.imageAlt(projectTitle, index + 1)}
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -70,7 +72,7 @@ export function ImageGallery({ images, projectTitle, onImageClick }: ImageGaller
                         onClick={() => setShowAll(!showAll)}
                         className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline transition-colors cursor-pointer bg-transparent border-0"
                     >
-                        {showAll ? 'Show less' : `Show all (${images.length} photos)`} →
+                        {showAll ? dictionary.actions.showLess : dictionary.actions.showAllPhotos(images.length)} →
                     </button>
                 </div>
             )}

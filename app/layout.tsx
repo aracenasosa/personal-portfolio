@@ -3,6 +3,7 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { portfolioQuery } from "@/sanity/lib/queries";
 import { PortfolioData } from "@/types/sanity";
 import { urlFor } from "@/sanity/lib/image";
+import { localize, DEFAULT_LANGUAGE } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
     let data: PortfolioData | null = null;
@@ -25,7 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
     return {
         title: "Carlos Aracena - Portfolio",
-        description: data?.introduction?.description || "Personal portfolio showcasing my projects and skills.",
+        description:
+            localize(data?.introduction?.description, DEFAULT_LANGUAGE) ||
+            "Personal portfolio showcasing my projects and skills.",
         icons: {
             icon: favicon,
         },

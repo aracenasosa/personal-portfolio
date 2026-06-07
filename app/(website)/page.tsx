@@ -3,16 +3,17 @@ import { HeroSection } from "@/components/features/hero/HeroSection";
 import { AboutSection } from "@/components/features/about/AboutSection";
 import { WorkEducationSection } from "@/components/features/education/WorkEducationSection";
 import { SkillsSection } from "@/components/features/skills/SkillsSection";
-import { ContactSection } from "@/components/features/contact/ContactSection";
 import ProjectsSection from "@/components/features/projects/ProjectsSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { portfolioQuery } from "@/sanity/lib/queries";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import { PortfolioData } from "@/types/sanity";
 import { RecommendationsSection } from "@/components/features/recommendations/RecommendationsSection";
 import { ProfileCard } from "@/components/layout/profile-card";
 import { RightNav } from "@/components/layout/right-nav";
 import { DataFetchFallback } from "@/components/ui/DataFetchFallback";
+import { SiteFooter } from "@/components/ui/SiteFooter";
 
 export default async function Home() {
 
@@ -54,7 +55,8 @@ export default async function Home() {
         <div className="max-w-[1800px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
           <div className="flex flex-col lg:flex-row gap-8 relative">
             {/* Mobile Theme Toggle */}
-            <div className="flex justify-end lg:hidden mt-4 px-4">
+            <div className="flex justify-end gap-3 lg:hidden mt-4 px-4">
+              <LanguageToggle />
               <ThemeToggle />
             </div>
 
@@ -67,7 +69,8 @@ export default async function Home() {
             {/* Right Column - Scrollable Content */}
             <div className="flex-1 py-8 lg:pl-8">
               {/* Header / Theme Toggle (Desktop) */}
-              <div className="hidden lg:flex justify-end mb-12">
+              <div className="hidden lg:flex justify-end gap-3 mb-12">
+                <LanguageToggle />
                 <ThemeToggle />
               </div>
 
@@ -97,9 +100,7 @@ export default async function Home() {
                 <RecommendationsSection data={data.recommendations} />
               </section>
 
-              <footer className="py-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-                © 2025 Carlos Aracena. All rights reserved.
-              </footer>
+              <SiteFooter />
             </div>
           </div>
         </div>

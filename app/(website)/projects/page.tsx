@@ -1,12 +1,9 @@
-import { ProjectCard } from "@/components/features/projects/ProjectCard"
-import { SectionBadge } from "@/components/ui/SectionBadge"
-import Link from "next/link"
 import { sanityFetch } from "@/sanity/lib/live"
 import { portfolioQuery } from "@/sanity/lib/queries"
 import { PortfolioData } from "@/types/sanity"
 import { DataFetchFallback } from "@/components/ui/DataFetchFallback"
 import { ScrollToTop } from "@/components/ui/ScrollToTop"
-import { FadeInSection } from "@/components/ui/FadeInSection"
+import { ProjectsPageContent } from "@/components/features/projects/ProjectsPageContent"
 
 export default async function ProjectsPage() {
     let data: PortfolioData | null = null
@@ -38,81 +35,10 @@ export default async function ProjectsPage() {
 
     if (!data) return null
 
-    const { projects } = data
-    const sortedProjects = [...projects].sort((a, b) => (a.order || 0) - (b.order || 0))
-
-    const workProjects = sortedProjects.filter((p) => p.projectType === "work")
-    const personalProjects = sortedProjects.filter((p) => !p.projectType || p.projectType === "personal")
-
     return (
-        <div className="min-h-screen bg-background">
+        <>
             <ScrollToTop />
-            <div className="max-w-6xl mx-auto px-6 py-8">
-                {/* Navigation */}
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-                >
-                    <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
-                    Back to Portfolio
-                </Link>
-
-                {/* Header */}
-                <div className="mb-12">
-                    <SectionBadge icon={<span className="w-2 h-2 rounded-full bg-primary" />}>
-                        All Projects
-                    </SectionBadge>
-
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 mb-6">
-                        My Projects
-                    </h1>
-
-                    <p className="text-xl text-muted-foreground w-full">
-                        A collection of {projects.length} projects showcasing web applications, mobile apps,
-                        and SaaS platforms built with modern technologies and best practices.
-                    </p>
-                </div>
-
-                {/* Work Projects Section */}
-                {workProjects.length > 0 && (
-                    <div className="mb-16">
-                        <h2 className="text-3xl font-bold mb-8">Work Projects</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
-                            {workProjects.map((project, index) => (
-                                <FadeInSection key={project._key} delay={index * 0.1}>
-                                    <ProjectCard {...project} />
-                                </FadeInSection>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Personal Projects Section */}
-                {personalProjects.length > 0 && (
-                    <div className="mb-16">
-                        <h2 className="text-3xl font-bold mb-8">Personal Projects</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 min-[1600px]:grid-cols-3 gap-6">
-                            {personalProjects.map((project, index) => (
-                                <FadeInSection key={project._key} delay={index * 0.1}>
-                                    <ProjectCard {...project} />
-                                </FadeInSection>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
+            <ProjectsPageContent data={data} />
+        </>
     )
 }

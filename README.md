@@ -44,7 +44,7 @@ This portfolio serves as a centralized hub for professional storytelling. It fea
 ### Prerequisites
 
 - Node.js (Latest LTS recommended)
-- npm, yarn, pnpm, or bun
+- pnpm 11.1.2 or newer
 
 ### Installation
 
@@ -58,21 +58,45 @@ This portfolio serves as a centralized hub for professional storytelling. It fea
 2. **Install dependencies**:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Configure Environment Variables**:
    Create a `.env` file in the root directory and add your Sanity credentials:
 
    ```env
-   NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-   NEXT_PUBLIC_SANITY_DATASET=production
-   ```
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=v2025-12-05
+```
+
+For Sanity write operations, such as migrating old English-only fields to the EN/ES object shape, also add:
+
+```env
+SANITY_API_WRITE_TOKEN=your_sanity_write_token
+```
+
+### Migrating Existing Sanity Text
+
+If your Sanity document was created before bilingual fields were added, the old text is still stored as plain English strings. Run this once to convert those values into localized objects:
+
+```bash
+pnpm migrate:i18n
+```
+
+This copies current text into `en` and leaves `es` empty. After that, fill the Spanish values in Sanity Studio so the ES switch has content to show.
+
+If your API token still gets an `Insufficient permissions` error but your Sanity user can edit content in Studio, log in to the Sanity CLI and run the migration with your user token:
+
+```bash
+pnpm exec sanity login
+pnpm migrate:i18n:user
+```
 
 4. **Run the development server**:
 
    ```bash
-   npm run dev
+   pnpm dev
    ```
 
 5. **Open the application**:
@@ -80,10 +104,12 @@ This portfolio serves as a centralized hub for professional storytelling. It fea
 
 ## 📝 Scripts
 
-- `npm run dev`: Starts the development server with Turbopack.
-- `npm run build`: Creates an optimized production build.
-- `npm run start`: Starts the production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
+- `pnpm dev`: Starts the development server with Turbopack.
+- `pnpm build`: Creates an optimized production build.
+- `pnpm start`: Starts the production server.
+- `pnpm lint`: Runs ESLint to check for code quality issues.
+- `pnpm migrate:i18n`: Converts old Sanity plain text fields into EN/ES localized fields.
+- `pnpm migrate:i18n:user`: Runs the same migration with your logged-in Sanity CLI user.
 
 ## 🤝 Contributing
 

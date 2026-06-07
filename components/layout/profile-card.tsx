@@ -4,19 +4,27 @@ import Image from "next/image"
 import { Mail } from "lucide-react"
 import { urlFor } from "@/sanity/lib/image"
 import { Profile } from "@/types/sanity"
+import { localize } from "@/lib/i18n"
+import { useLanguage } from "@/components/providers/language-provider"
 
 export function ProfileCard({ data }: { data: Profile }) {
+    const { language, dictionary } = useLanguage()
+    const topLeftTitle = localize(data.topLeftTitle, language) ?? ""
+    const topTitle = localize(data.topTitle, language) ?? ""
+    const specialization = localize(data.specialization, language) ?? ""
+    const baseIn = localize(data.baseIn, language) ?? ""
+
     return (
         <div className="sticky top-8 h-fit flex flex-col gap-6 [@media(min-width:531px)_and_(max-width:1023px)]:gap-5 p-8 [@media(min-width:531px)_and_(max-width:1023px)]:p-6 rounded-3xl bg-card border-2 border-border shadow-xl">
             <div className="flex items-center justify-between max-[405px]:flex-col max-[405px]:items-start max-[405px]:gap-2">
-                <h1 className="text-2xl font-bold">{data.topLeftTitle}</h1>
-                <span className="text-xs font-medium text-muted-foreground">{data.topTitle}</span>
+                <h1 className="text-2xl font-bold">{topLeftTitle}</h1>
+                <span className="text-xs font-medium text-muted-foreground">{topTitle}</span>
             </div>
 
             <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-muted">
                 <Image
                     src={data.image ? urlFor(data.image).url() : '/placeholder.jpg'}
-                    alt="Profile"
+                    alt={dictionary.labels.profileImageAlt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 400px"
                     className="object-cover object-top"
@@ -25,17 +33,17 @@ export function ProfileCard({ data }: { data: Profile }) {
             </div>
 
             <div className="flex flex-col gap-2">
-                <span className="text-sm text-muted-foreground">Specialization:</span>
-                <p className="font-medium">{data.specialization}</p>
+                <span className="text-sm text-muted-foreground">{dictionary.labels.specialization}</span>
+                <p className="font-medium">{specialization}</p>
             </div>
 
             <div className="flex flex-col gap-2">
-                <span className="text-sm text-muted-foreground">Based in:</span>
-                <p className="font-medium">{data.baseIn}</p>
+                <span className="text-sm text-muted-foreground">{dictionary.labels.basedIn}</span>
+                <p className="font-medium">{baseIn}</p>
             </div>
 
             <div className="flex flex-col gap-2">
-                <span className="text-sm text-muted-foreground">Email:</span>
+                <span className="text-sm text-muted-foreground">{dictionary.labels.email}</span>
                 <p className="font-medium">{data.email}</p>
             </div>
 

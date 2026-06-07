@@ -2,11 +2,14 @@
   "name": "personal-portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.1.2",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:i18n": "node scripts/migrate-localized-fields.mjs",
+    "migrate:i18n:user": "sanity exec scripts/migrate-localized-fields.mjs --with-user-token -- --use-cli-token"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.0",

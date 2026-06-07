@@ -1,23 +1,33 @@
+"use client"
+
 import { Resume, ResumeItem } from "@/types/sanity"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import { Briefcase } from "lucide-react"
+import { localize } from "@/lib/i18n"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface TimelineItemProps {
     item: ResumeItem
 }
 
 function TimelineItemComponent({ item }: TimelineItemProps) {
+    const { language, dictionary } = useLanguage()
+    const period = localize(item.period, language) ?? ""
+    const title = localize(item.title, language) ?? ""
+    const organization = localize(item.organization, language) ?? ""
+    const description = localize(item.description, language) ?? ""
+
     return (
         <div className="relative pl-8">
             <div className="absolute left-0 top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
-            <div className="text-sm text-muted-foreground mb-2">{item.period}</div>
-            <h4 className="text-xl font-bold mb-1">{item.title}</h4>
+            <div className="text-sm text-muted-foreground mb-2">{period}</div>
+            <h4 className="text-xl font-bold mb-1">{title}</h4>
             <div className="text-sm text-muted-foreground mb-3">
-                Course by <span className="font-medium">{item.organization}</span>
+                {dictionary.labels.courseBy} <span className="font-medium">{organization}</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-                {item.description}
+                {description}
             </p>
         </div>
     )
@@ -28,22 +38,26 @@ interface WorkEducationSectionProps {
 }
 
 export function WorkEducationSection({ data }: WorkEducationSectionProps) {
+    const { language, dictionary } = useLanguage()
+    const title = localize(data.title, language) ?? ""
+    const description = localize(data.description, language) ?? ""
+
     return (
         <FadeInSection>
             <section id="education" className="mb-32">
                 <SectionBadge icon={<Briefcase className="w-4 h-4" />} className="mb-8">
-                    Resume
+                    {dictionary.sections.resume}
                 </SectionBadge>
 
-                <h2 className="text-3xl sm:text-4xl font-bold mb-6">{data.title}</h2>
+                <h2 className="text-3xl sm:text-4xl font-bold mb-6">{title}</h2>
                 <p className="text-muted-foreground mb-12 leading-relaxed">
-                    {data.description}
+                    {description}
                 </p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
                     {/* Work Experience Column */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-8">Work Experience</h3>
+                        <h3 className="text-2xl font-bold mb-8">{dictionary.sections.workExperience}</h3>
                         <div className="relative space-y-8 before:absolute before:left-[7px] before:top-4 before:h-[calc(100%-2rem)] before:w-[2px] before:bg-border">
                             {data.work?.map((item) => (
                                 <TimelineItemComponent key={item._key} item={item} />
@@ -53,7 +67,7 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
 
                     {/* Education Column */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-8">Education</h3>
+                        <h3 className="text-2xl font-bold mb-8">{dictionary.sections.education}</h3>
                         <div className="relative space-y-8 before:absolute before:left-[7px] before:top-4 before:h-[calc(100%-2rem)] before:w-[2px] before:bg-border">
                             {data.education?.map((item) => (
                                 <TimelineItemComponent key={item._key} item={item} />
@@ -65,7 +79,7 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
                 </div>
 
                 <div className="mt-16">
-                    <h3 className="text-2xl font-bold mb-8">Certifications & Courses</h3>
+                    <h3 className="text-2xl font-bold mb-8">{dictionary.sections.certifications}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {/* Split certifications into two columns manually for better control */}
                         {(() => {
@@ -102,7 +116,7 @@ export function WorkEducationSection({ data }: WorkEducationSectionProps) {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline transition-colors mt-8"
                         >
-                            View on LinkedIn →
+                            {dictionary.actions.viewOnLinkedin} →
                         </a>
                     )}
                 </div>

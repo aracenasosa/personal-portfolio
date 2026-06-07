@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useSwipe } from "@/hooks/useSwipe"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface ImageModalProps {
     images: string[]
@@ -12,6 +13,7 @@ interface ImageModalProps {
 }
 
 export function ImageModal({ images, initialIndex, onClose, projectTitle }: ImageModalProps) {
+    const { dictionary } = useLanguage()
     const [currentIndex, setCurrentIndex] = useState(initialIndex)
 
     const goToNext = () => {
@@ -54,7 +56,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
             <button
                 onClick={onClose}
                 className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Close modal"
+                aria-label={dictionary.labels.closeModal}
             >
                 <svg
                     className="w-6 h-6 text-white"
@@ -84,7 +86,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
                         goToPrevious()
                     }}
                     className="absolute left-4 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                    aria-label="Previous image"
+                    aria-label={dictionary.labels.previousImage}
                 >
                     <svg
                         className="w-6 h-6 text-white"
@@ -111,7 +113,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
                 <div className="relative w-full h-full">
                     <Image
                         src={images[currentIndex]}
-                        alt={`${projectTitle} - Image ${currentIndex + 1}`}
+                        alt={dictionary.labels.imageAlt(projectTitle, currentIndex + 1)}
                         fill
                         sizes="90vw"
                         className="object-contain"
@@ -128,7 +130,7 @@ export function ImageModal({ images, initialIndex, onClose, projectTitle }: Imag
                         goToNext()
                     }}
                     className="absolute right-4 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                    aria-label="Next image"
+                    aria-label={dictionary.labels.nextImage}
                 >
                     <svg
                         className="w-6 h-6 text-white"

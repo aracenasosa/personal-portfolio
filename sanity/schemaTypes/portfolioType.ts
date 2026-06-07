@@ -1,6 +1,110 @@
 // /schemas/portfolio.ts
 import { defineType, defineField } from "sanity";
 
+const languageFields = [
+  defineField({
+    name: "en",
+    title: "English",
+    type: "string",
+  }),
+  defineField({
+    name: "es",
+    title: "Spanish",
+    type: "string",
+  }),
+];
+
+const localizedString = (
+  name: string,
+  title: string,
+  options: Record<string, unknown> = {}
+) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: languageFields,
+    options: {
+      columns: 2,
+      collapsible: true,
+      collapsed: false,
+    },
+    ...options,
+  });
+
+const localizedText = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({
+        name: "en",
+        title: "English",
+        type: "text",
+      }),
+      defineField({
+        name: "es",
+        title: "Spanish",
+        type: "text",
+      }),
+    ],
+    options: {
+      collapsible: true,
+      collapsed: false,
+    },
+  });
+
+const localizedStringArray = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({
+        name: "en",
+        title: "English",
+        type: "array",
+        of: [{ type: "string" }],
+      }),
+      defineField({
+        name: "es",
+        title: "Spanish",
+        type: "array",
+        of: [{ type: "string" }],
+      }),
+    ],
+    options: {
+      collapsible: true,
+      collapsed: false,
+    },
+  });
+
+const localizedPortableText = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({
+        name: "en",
+        title: "English",
+        type: "array",
+        of: [{ type: "block" }],
+      }),
+      defineField({
+        name: "es",
+        title: "Spanish",
+        type: "array",
+        of: [{ type: "block" }],
+      }),
+    ],
+    options: {
+      collapsible: true,
+      collapsed: false,
+    },
+  });
+
 export default defineType({
   name: "portfolio",
   title: "Portfolio",
@@ -12,31 +116,15 @@ export default defineType({
       title: "Profile",
       type: "object",
       fields: [
-        {
-          name: "topTitle",
-          title: "Top Title",
-          type: "string",
-        },
-        {
-          name: "topLeftTitle",
-          title: "Top Left Title",
-          type: "string",
-        },
+        localizedString("topTitle", "Top Title"),
+        localizedString("topLeftTitle", "Top Left Title"),
         {
           name: "image",
           title: "Image",
           type: "image",
         },
-        {
-          name: "specialization",
-          title: "Specialization",
-          type: "string",
-        },
-        {
-          name: "baseIn",
-          title: "Base in",
-          type: "string",
-        },
+        localizedString("specialization", "Specialization"),
+        localizedString("baseIn", "Base in"),
         {
           name: "email",
           title: "Email",
@@ -61,16 +149,8 @@ export default defineType({
       title: "Introduction",
       type: "object",
       fields: [
-        {
-          name: "title",
-          title: "Title",
-          type: "string",
-        },
-        {
-          name: "description",
-          title: "Description",
-          type: "text",
-        },
+        localizedString("title", "Title"),
+        localizedText("description", "Description"),
         {
           name: "cv",
           title: "CV URL",
@@ -96,11 +176,7 @@ export default defineType({
                   title: "Value",
                   type: "string",
                 },
-                {
-                  name: "label",
-                  title: "Label",
-                  type: "string",
-                },
+                localizedString("label", "Label"),
               ],
             },
           ],
@@ -109,22 +185,22 @@ export default defineType({
     },
 
     // PORTFOLIO SETTINGS
-    {
-      name: "workProjectsTitle",
-      title: "Work Projects Section Title",
-      type: "string",
+    localizedString("workProjectsTitle", "Work Projects Section Title", {
       description:
         "Title for the Work Projects section (default: Production Projects)",
-      initialValue: "Production Projects",
-    },
-    {
-      name: "personalProjectsTitle",
-      title: "Personal Projects Section Title",
-      type: "string",
+      initialValue: {
+        en: "Production Projects",
+        es: "Proyectos profesionales",
+      },
+    }),
+    localizedString("personalProjectsTitle", "Personal Projects Section Title", {
       description:
         "Title for the Personal Projects section (default: Personal Projects)",
-      initialValue: "Personal Projects",
-    },
+      initialValue: {
+        en: "Personal Projects",
+        es: "Proyectos personales",
+      },
+    }),
     {
       name: "maxWorkProjects",
       title: "Max Work Projects on Home",
@@ -158,11 +234,7 @@ export default defineType({
               title: "Order",
               type: "number",
             },
-            {
-              name: "title",
-              title: "Title",
-              type: "string",
-            },
+            localizedString("title", "Title"),
             {
               name: "projectType",
               title: "Project Type",
@@ -176,23 +248,9 @@ export default defineType({
               },
               initialValue: "personal",
             },
-            {
-              name: "category",
-              title: "Category",
-              type: "array",
-              of: [{ type: "string" }],
-            },
-            {
-              name: "description",
-              title: "Short description",
-              type: "text",
-            },
-            {
-              name: "fullDescription",
-              title: "Full Description",
-              type: "array",
-              of: [{ type: "block" }],
-            },
+            localizedStringArray("category", "Category"),
+            localizedText("description", "Short description"),
+            localizedPortableText("fullDescription", "Full Description"),
             {
               name: "images",
               title: "Gallery images (URLs)",
@@ -205,12 +263,7 @@ export default defineType({
               type: "array",
               of: [{ type: "string" }],
             },
-            {
-              name: "features",
-              title: "Features",
-              type: "array",
-              of: [{ type: "string" }],
-            },
+            localizedStringArray("features", "Features"),
             {
               name: "liveUrl",
               title: "Live URL",
@@ -221,17 +274,8 @@ export default defineType({
               title: "GitHub URL",
               type: "url",
             },
-            {
-              name: "timeline",
-              title: "Timeline",
-              type: "string",
-            },
-            {
-              name: "highlights",
-              title: "Highlights",
-              type: "array",
-              of: [{ type: "string" }],
-            },
+            localizedString("timeline", "Timeline"),
+            localizedStringArray("highlights", "Highlights"),
           ],
           preview: {
             select: {
@@ -241,7 +285,7 @@ export default defineType({
             },
             prepare({ title, subtitle, media }) {
               return {
-                title: title || "Untitled",
+                title: title?.en || title?.es || title || "Untitled",
                 subtitle: subtitle === "work" ? "Type: Work" : "Type: Personal",
                 media,
               };
@@ -257,16 +301,8 @@ export default defineType({
       title: "Resume",
       type: "object",
       fields: [
-        {
-          name: "title",
-          title: "Section title",
-          type: "string",
-        },
-        {
-          name: "description",
-          title: "Section description",
-          type: "text",
-        },
+        localizedString("title", "Section title"),
+        localizedText("description", "Section description"),
         {
           name: "work",
           title: "Work experience",
@@ -277,26 +313,10 @@ export default defineType({
               title: "Work item",
               type: "object",
               fields: [
-                {
-                  name: "period",
-                  title: "Period",
-                  type: "string",
-                },
-                {
-                  name: "title",
-                  title: "Title",
-                  type: "string",
-                },
-                {
-                  name: "organization",
-                  title: "Organization",
-                  type: "string",
-                },
-                {
-                  name: "description",
-                  title: "Description",
-                  type: "text",
-                },
+                localizedString("period", "Period"),
+                localizedString("title", "Title"),
+                localizedString("organization", "Organization"),
+                localizedText("description", "Description"),
               ],
             },
           ],
@@ -311,26 +331,10 @@ export default defineType({
               title: "Education item",
               type: "object",
               fields: [
-                {
-                  name: "period",
-                  title: "Period",
-                  type: "string",
-                },
-                {
-                  name: "title",
-                  title: "Title",
-                  type: "string",
-                },
-                {
-                  name: "organization",
-                  title: "Organization",
-                  type: "string",
-                },
-                {
-                  name: "description",
-                  title: "Description",
-                  type: "text",
-                },
+                localizedString("period", "Period"),
+                localizedString("title", "Title"),
+                localizedString("organization", "Organization"),
+                localizedText("description", "Description"),
               ],
             },
           ],
@@ -345,26 +349,10 @@ export default defineType({
               title: "Certification item",
               type: "object",
               fields: [
-                {
-                  name: "period",
-                  title: "Period",
-                  type: "string",
-                },
-                {
-                  name: "title",
-                  title: "Title",
-                  type: "string",
-                },
-                {
-                  name: "organization",
-                  title: "Organization",
-                  type: "string",
-                },
-                {
-                  name: "description",
-                  title: "Description",
-                  type: "text",
-                },
+                localizedString("period", "Period"),
+                localizedString("title", "Title"),
+                localizedString("organization", "Organization"),
+                localizedText("description", "Description"),
               ],
             },
           ],
@@ -393,31 +381,15 @@ export default defineType({
               title: "Name",
               type: "string",
             },
-            {
-              name: "role",
-              title: "Role",
-              type: "string",
-            },
+            localizedString("role", "Role"),
             {
               name: "company",
               title: "Company",
               type: "string",
             },
-            {
-              name: "date",
-              title: "Date",
-              type: "string",
-            },
-            {
-              name: "relationship",
-              title: "Relationship",
-              type: "string",
-            },
-            {
-              name: "recommendation",
-              title: "Recommendation",
-              type: "text",
-            },
+            localizedString("date", "Date"),
+            localizedString("relationship", "Relationship"),
+            localizedText("recommendation", "Recommendation"),
             {
               name: "linkedinUrl",
               title: "LinkedIn URL",
@@ -439,11 +411,7 @@ export default defineType({
       title: "Skills",
       type: "object",
       fields: [
-        {
-          name: "title",
-          title: "Section Title",
-          type: "string",
-        },
+        localizedString("title", "Section Title"),
         {
           name: "items",
           title: "Skills",
@@ -454,11 +422,7 @@ export default defineType({
               title: "Skill Item",
               type: "object",
               fields: [
-                {
-                  name: "name",
-                  title: "Name",
-                  type: "string",
-                },
+                localizedString("name", "Name"),
                 {
                   name: "image",
                   title: "Image",
@@ -477,16 +441,8 @@ export default defineType({
       title: "About",
       type: "object",
       fields: [
-        {
-          name: "title",
-          title: "Title",
-          type: "string",
-        },
-        {
-          name: "description",
-          title: "Description",
-          type: "text",
-        },
+        localizedString("title", "Title"),
+        localizedText("description", "Description"),
       ],
     },
   ],

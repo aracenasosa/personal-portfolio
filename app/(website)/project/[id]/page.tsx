@@ -14,6 +14,10 @@ import { urlFor } from "@/sanity/lib/image"
 import { ProjectDetailSkeleton } from "@/components/features/skeletons/ProjectDetailSkeleton"
 import { PortableText } from "@portabletext/react"
 import { DataFetchFallback } from "@/components/ui/DataFetchFallback"
+import { LanguageToggle } from "@/components/ui/language-toggle"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { localize, localizeArray } from "@/lib/i18n"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface ProjectDetailPageProps {
     params: Promise<{
@@ -21,8 +25,14 @@ interface ProjectDetailPageProps {
     }>
 }
 
+interface ProjectQueryResult {
+    project?: Project
+    totalCount?: number
+}
+
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     const { id } = use(params)
+    const { language, dictionary } = useLanguage()
     const [project, setProject] = useState<Project | null>(null)
     const [totalProjects, setTotalProjects] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -41,7 +51,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 const fetchPromise = client.fetch(projectQuery, { id })
 
                 // Use Promise.race to race the fetch against the timeout
-                const result: any = await Promise.race([fetchPromise, timeoutPromise])
+                const result = await Promise.race([fetchPromise, timeoutPromise]) as ProjectQueryResult
 
                 if (!result || !result.project) {
                     notFound()
@@ -76,7 +86,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
                 <DataFetchFallback
-                    message="The project details took too long to load."
+                    message={dictionary.fallback.projectDetails}
                     onRetry={() => window.location.reload()}
                 />
             </div>
@@ -86,6 +96,13 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     if (!project) return null
 
     const imageUrls = project.images?.map((img) => urlFor(img).url()) || []
+    const title = localize(project.title, language) ?? ""
+    const fullDescription = localize(project.fullDescription, language) ?? []
+    const timeline = localize(project.timeline, language)
+    const role = localize(project.role, language)
+    const teamSize = localize(project.teamSize, language)
+    const features = localizeArray(project.features, language)
+    const highlights = localizeArray(project.highlights, language)
 
     return (
         <div className="min-h-screen bg-background">
@@ -109,42 +126,48 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                             d="M15 19l-7-7 7-7"
                         />
                     </svg>
-                    Back to portfolio
+                    {dictionary.actions.backToPortfolio}
                 </Link>
 
-                {totalProjects > 4 && (
-                    <Link
-                        href="/projects"
-                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        All projects
-                        <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
+                <div className="flex items-center gap-3">
+                    {totalProjects > 4 && (
+                        <Link
+                            href="/projects"
+                            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
-                    </Link>
-                )}
+                            {dictionary.actions.allProjects}
+                            <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </Link>
+                    )}
+                    <div className="flex gap-3">
+                        <LanguageToggle />
+                        <ThemeToggle />
+                    </div>
+                </div>
             </div>
 
             <div className="max-w-6xl mx-auto px-6 pb-8">
                 {/* Project Header */}
                 <div className="mb-12 mt-8">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                        {project.title}
+                        {title}
                     </h1>
 
                     <div className="text-xl text-muted-foreground w-full mb-8">
                         <PortableText
-                            value={project.fullDescription}
+                            value={fullDescription}
                             components={{
                                 block: {
                                     normal: ({ children }) => (
@@ -161,20 +184,20 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     <div className="flex flex-wrap gap-6 mt-8 text-sm">
                         {project.timeline && (
                             <div>
-                                <span className="text-muted-foreground">Timeline:</span>
-                                <span className="ml-2 font-medium">{project.timeline}</span>
+                                <span className="text-muted-foreground">{dictionary.labels.timeline}</span>
+                                <span className="ml-2 font-medium">{timeline}</span>
                             </div>
                         )}
                         {project.role && (
                             <div>
-                                <span className="text-muted-foreground">Role:</span>
-                                <span className="ml-2 font-medium">{project.role}</span>
+                                <span className="text-muted-foreground">{dictionary.labels.role}</span>
+                                <span className="ml-2 font-medium">{role}</span>
                             </div>
                         )}
                         {project.teamSize && (
                             <div>
-                                <span className="text-muted-foreground">Team:</span>
-                                <span className="ml-2 font-medium">{project.teamSize}</span>
+                                <span className="text-muted-foreground">{dictionary.labels.team}</span>
+                                <span className="ml-2 font-medium">{teamSize}</span>
                             </div>
                         )}
                     </div>
@@ -201,7 +224,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                                     />
                                 </svg>
-                                {project.projectType === "work" ? "Visit Website" : "View Live Demo"}
+                                {project.projectType === "work" ? dictionary.actions.visitWebsite : dictionary.actions.viewLiveDemo}
                             </a>
                         )}
                         {project.githubUrl && (
@@ -222,7 +245,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                                         clipRule="evenodd"
                                     />
                                 </svg>
-                                View on GitHub
+                                {dictionary.actions.viewOnGithub}
                             </a>
                         )}
                     </div>
@@ -231,10 +254,10 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 {/* Image Gallery */}
                 {imageUrls.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-2xl font-bold mb-6">Project Gallery</h2>
+                        <h2 className="text-2xl font-bold mb-6">{dictionary.sections.projectGallery}</h2>
                         <ImageGallery
                             images={imageUrls}
-                            projectTitle={project.title}
+                            projectTitle={title}
                             onImageClick={handleImageClick}
                         />
                     </section>
@@ -243,7 +266,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 {/* Technologies */}
                 {project.technologies && project.technologies.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-2xl font-bold mb-6">Technologies Used</h2>
+                        <h2 className="text-2xl font-bold mb-6">{dictionary.sections.technologiesUsed}</h2>
                         <div className="flex flex-wrap gap-3">
                             {project.technologies.map((tech) => (
                                 <TechBadge key={tech} name={tech} />
@@ -253,11 +276,11 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 )}
 
                 {/* Key Features */}
-                {project.features && project.features.length > 0 && (
+                {features.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-2xl font-bold mb-6">Key Features</h2>
+                        <h2 className="text-2xl font-bold mb-6">{dictionary.sections.keyFeatures}</h2>
                         <ul className="space-y-3">
-                            {project.features.map((feature, index) => (
+                            {features.map((feature, index) => (
                                 <li key={index} className="flex items-start gap-3">
                                     <svg
                                         className="w-6 h-6 text-primary flex-shrink-0 mt-0.5"
@@ -280,11 +303,11 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 )}
 
                 {/* Project Highlights */}
-                {project.highlights && project.highlights.length > 0 && (
+                {highlights.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-2xl font-bold mb-6">Project Highlights</h2>
+                        <h2 className="text-2xl font-bold mb-6">{dictionary.sections.projectHighlights}</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {project.highlights.map((highlight, index) => (
+                            {highlights.map((highlight, index) => (
                                 <div
                                     key={index}
                                     className="p-6 rounded-2xl bg-card border-2 border-border shadow-md dark:shadow-none"
@@ -318,7 +341,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     images={imageUrls}
                     initialIndex={selectedImageIndex}
                     onClose={() => setModalOpen(false)}
-                    projectTitle={project.title}
+                    projectTitle={title}
                 />
             )}
         </div>

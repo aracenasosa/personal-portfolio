@@ -1,21 +1,29 @@
+"use client"
+
 import { Introduction } from "@/types/sanity"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter"
 import { Home } from "lucide-react"
+import { localize } from "@/lib/i18n"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface HeroSectionProps {
     data: Introduction
 }
 
 export function HeroSection({ data }: HeroSectionProps) {
+    const { language, dictionary } = useLanguage()
+    const title = localize(data.title, language) ?? ""
+    const description = localize(data.description, language) ?? ""
+
     return (
         <FadeInSection>
             <section id="home" className="mb-32 pt-10">
                 <SectionBadge icon={<Home className="w-4 h-4" />} className="mb-8">
-                    Introduction
+                    {dictionary.sections.introduction}
                 </SectionBadge>
-                <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-8" dangerouslySetInnerHTML={{ __html: data.title }}></h1>
+                <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-8" dangerouslySetInnerHTML={{ __html: title }}></h1>
 
                 <div className="flex flex-wrap gap-4 mb-12">
                     {data.cv && (
@@ -25,7 +33,7 @@ export function HeroSection({ data }: HeroSectionProps) {
                             rel="noopener noreferrer"
                             className="px-8 py-3 rounded-xl border-2 border-transparent bg-foreground text-background font-medium hover:bg-foreground/90 transition-colors cursor-pointer inline-block text-center"
                         >
-                            Download Resume
+                            {dictionary.actions.downloadResume}
                         </a>
                     )}
                     {data.cl && (
@@ -35,13 +43,13 @@ export function HeroSection({ data }: HeroSectionProps) {
                             rel="noopener noreferrer"
                             className="px-8 py-3 rounded-xl border-2 border-border bg-background hover:bg-secondary transition-colors font-medium cursor-pointer inline-block text-center shadow-md dark:shadow-none hover:shadow-lg dark:hover:shadow-none"
                         >
-                            Download Cover Letter
+                            {dictionary.actions.downloadCoverLetter}
                         </a>
                     )}
                 </div>
 
                 <p className="text-lg text-muted-foreground w-full max-w-full leading-relaxed">
-                    {data.description}
+                    {description}
                 </p>
 
                 <div className="flex flex-col [@media(min-width:1236px)]:flex-row justify-center gap-6 mt-12 mb-12">
@@ -53,7 +61,7 @@ export function HeroSection({ data }: HeroSectionProps) {
                             <h3 className="text-3xl font-bold mb-1">
                                 <AnimatedCounter value={stat.value} />
                             </h3>
-                            <p className="text-sm text-muted-foreground">{stat.label}</p>
+                            <p className="text-sm text-muted-foreground">{localize(stat.label, language)}</p>
                         </div>
                     ))}
                 </div>

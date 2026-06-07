@@ -8,12 +8,15 @@ import { urlFor } from "@/sanity/lib/image"
 import { FadeInSection } from "@/components/ui/FadeInSection"
 import { SectionBadge } from "@/components/ui/SectionBadge"
 import { useSwipe } from "@/hooks/useSwipe"
+import { localize } from "@/lib/i18n"
+import { useLanguage } from "@/components/providers/language-provider"
 
 interface RecommendationsSectionProps {
     data: Recommendation[]
 }
 
 export function RecommendationsSection({ data }: RecommendationsSectionProps) {
+    const { language, dictionary } = useLanguage()
     const [currentIndex, setCurrentIndex] = useState(0)
 
     const nextRecommendation = () => {
@@ -30,15 +33,19 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
     })
 
     const currentRecommendation = data[currentIndex]
+    const currentRole = localize(currentRecommendation.role, language) ?? ""
+    const currentDate = localize(currentRecommendation.date, language) ?? ""
+    const currentRelationship = localize(currentRecommendation.relationship, language) ?? ""
+    const currentText = localize(currentRecommendation.recommendation, language) ?? ""
 
     return (
         <FadeInSection>
             <section id="recommendations" className="mb-32">
                 <SectionBadge icon={<Star className="w-4 h-4" />} className="mb-8">
-                    Recommendations
+                    {dictionary.sections.recommendations}
                 </SectionBadge>
 
-                <h2 className="text-3xl sm:text-4xl font-bold mb-12">LinkedIn Recommendations</h2>
+                <h2 className="text-3xl sm:text-4xl font-bold mb-12">{dictionary.sections.linkedinRecommendations}</h2>
 
                 <div className="relative">
                     {/* Recommendation Card */}
@@ -70,16 +77,16 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
                                 <div className="mb-4">
                                     <h3 className="text-xl font-bold mb-1">{currentRecommendation.name}</h3>
                                     <p className="text-sm text-muted-foreground mb-1">
-                                        {currentRecommendation.role} at {currentRecommendation.company}
+                                        {currentRole} {dictionary.labels.at} {currentRecommendation.company}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        {currentRecommendation.relationship} • {currentRecommendation.date}
+                                        {currentRelationship} • {currentDate}
                                     </p>
                                 </div>
 
                                 {/* Recommendation Text */}
                                 <p className="text-muted-foreground leading-relaxed whitespace-pre-line mb-4">
-                                    {currentRecommendation.recommendation}
+                                    {currentText}
                                 </p>
 
                                 {/* LinkedIn Link */}
@@ -90,7 +97,7 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline transition-colors"
                                     >
-                                        View on LinkedIn →
+                                        {dictionary.actions.viewOnLinkedin} →
                                     </a>
                                 )}
                             </div>
@@ -102,14 +109,14 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
                         <button
                             onClick={prevRecommendation}
                             className="w-12 h-12 rounded-full border border-border/50 bg-background hover:bg-secondary transition-colors flex items-center justify-center cursor-pointer"
-                            aria-label="Previous recommendation"
+                            aria-label={dictionary.labels.previousRecommendation}
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
                         <button
                             onClick={nextRecommendation}
                             className="w-12 h-12 rounded-full border border-border/50 bg-background hover:bg-secondary transition-colors flex items-center justify-center cursor-pointer"
-                            aria-label="Next recommendation"
+                            aria-label={dictionary.labels.nextRecommendation}
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
@@ -125,7 +132,7 @@ export function RecommendationsSection({ data }: RecommendationsSectionProps) {
                                     ? "w-8 bg-primary"
                                     : "w-1 bg-border hover:bg-border/80"
                                     }`}
-                                aria-label={`Go to recommendation ${index + 1}`}
+                                aria-label={dictionary.labels.goToRecommendation(index + 1)}
                             />
                         ))}
                     </div>

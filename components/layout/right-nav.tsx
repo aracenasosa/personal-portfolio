@@ -3,6 +3,7 @@
 import { Home, User, Code, Briefcase, Star, Menu, X, Wrench } from "lucide-react"
 import { NAV_ITEMS } from "@/lib/constants"
 import { useState } from "react"
+import { useLanguage } from "@/components/providers/language-provider"
 
 const iconMap = {
     home: Home,
@@ -15,6 +16,16 @@ const iconMap = {
 
 export function RightNav() {
     const [isOpen, setIsOpen] = useState(false)
+    const { dictionary } = useLanguage()
+
+    const labels: Record<(typeof NAV_ITEMS)[number]["id"], string> = {
+        home: dictionary.navigation.home,
+        about: dictionary.navigation.about,
+        projects: dictionary.navigation.projects,
+        skills: dictionary.navigation.skills,
+        "work-education": dictionary.navigation.workEducation,
+        recommendations: dictionary.navigation.recommendations,
+    }
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id)
@@ -36,7 +47,7 @@ export function RightNav() {
                                 key={item.id}
                                 onClick={() => scrollToSection(item.id)}
                                 className="p-3 rounded-full hover:bg-secondary transition-colors cursor-pointer"
-                                aria-label={item.label}
+                                aria-label={labels[item.id]}
                             >
                                 <Icon className="w-5 h-5" />
                             </button>
@@ -49,7 +60,7 @@ export function RightNav() {
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="fixed top-6 left-6 z-50 lg:hidden p-3 rounded-full bg-card/95 backdrop-blur-sm border-2 border-border shadow-lg hover:bg-secondary transition-all"
-                aria-label="Toggle menu"
+                aria-label={dictionary.navigation.toggleMenu}
             >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -68,7 +79,7 @@ export function RightNav() {
                     }`}
             >
                 <div className="flex flex-col gap-2 p-6 mt-20">
-                    <h2 className="text-lg font-bold mb-6 text-muted-foreground">Navigation</h2>
+                    <h2 className="text-lg font-bold mb-6 text-muted-foreground">{dictionary.navigation.navigation}</h2>
                     {NAV_ITEMS.map((item) => {
                         const Icon = iconMap[item.icon as keyof typeof iconMap] || Star
                         return (
@@ -76,10 +87,10 @@ export function RightNav() {
                                 key={item.id}
                                 onClick={() => scrollToSection(item.id)}
                                 className="flex items-center gap-4 p-4 rounded-lg hover:bg-secondary transition-colors cursor-pointer text-left group"
-                                aria-label={item.label}
+                                aria-label={labels[item.id]}
                             >
                                 {Icon && <Icon className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />}
-                                <span className="font-medium">{item.label}</span>
+                                <span className="font-medium">{labels[item.id]}</span>
                             </button>
                         )
                     })}
